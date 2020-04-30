@@ -4,5 +4,9 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
-
+    <ItemGroup>
+        <EmbeddedResource Include="../PubKeyInfra/server.pem" Link="Resources/Certificates/server.pem" />
+        <EmbeddedResource Include="../PubKeyInfra/server.key" Link="Resources/Certificates/server.key" />
+    </ItemGroup>
+    
 </Project>
