@@ -28,7 +28,7 @@ namespace MiniMe.AimeDb
             // header
             packet.Write(new AimeHeader
             {
-                Id = 0xa13e,
+                Id = AimeHeader.MagicId,
                 Id2 = 0x3087,
                 OpCode = opCode,
                 FrameLength = size

@@ -65,7 +65,7 @@ namespace MiniMe.AimeDb
 
                 var header = packet.Read<AimeHeader>();
 
-                if (header.Id != 0xa13e)
+                if (header.Id != AimeHeader.MagicId)
                 {
                     throw new InvalidOperationException($"Invalid magic 0x{header.Id:X}({header.Id})");
                 }

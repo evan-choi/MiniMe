@@ -5,6 +5,8 @@ namespace MiniMe.AimeDb.Protocols
     [StructLayout(LayoutKind.Sequential)]
     internal struct AimeHeader
     {
+        public const ushort MagicId = 0xa13e;
+
         public ushort Id { get; set; } // Magic?
 
         public ushort Id2 { get; set; } // ???
