@@ -21,8 +21,8 @@ namespace MiniMe.AimeDb
         {
             _logger = logger;
 
-            AddReceiveTransform(_decryptor);
-            AddSendTransform(_encryptor);
+            AddReceiveTransform(new CryptoPacketTransform(_decryptor, true));
+            AddSendTransform(new CryptoPacketTransform(_encryptor));
         }
 
         protected override void OnBadPacketReceived(ReadOnlySpan<byte> packet, DateTime recivedTime, Exception exception)
@@ -120,8 +120,8 @@ namespace MiniMe.AimeDb
         }
 
         #region Crypto
-        private static readonly IPacketTransform _decryptor;
-        private static readonly IPacketTransform _encryptor;
+        private static readonly ICryptoTransform _decryptor;
+        private static readonly ICryptoTransform _encryptor;
 
         static AimeDbSession()
         {
@@ -133,8 +133,8 @@ namespace MiniMe.AimeDb
                 Padding = PaddingMode.Zeros
             };
 
-            _decryptor = new CryptoPacketTransform(aes.CreateDecryptor());
-            _encryptor = new CryptoPacketTransform(aes.CreateEncryptor());
+            _decryptor = aes.CreateDecryptor();
+            _encryptor = aes.CreateEncryptor();
         }
         #endregion
     }
