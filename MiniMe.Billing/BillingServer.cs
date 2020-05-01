@@ -2,11 +2,13 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using MiniMe.Core;
 using MiniMe.Core.AspNetCore.Hosting;
 using MiniMe.Core.Utilities;
 
 namespace MiniMe.Billing
 {
+    [LoggerName("\u001b[38;5;4mBilling")]
     public sealed class BillingServer : HostServerBase<DefaultHostStartup>
     {
         public BillingServer(IPEndPoint endPoint) : base(endPoint)

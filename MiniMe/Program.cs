@@ -40,7 +40,7 @@ namespace MiniMe
 
             try
             {
-                Log.Information("Starting web host");
+                Log.Information("Starting MiniMe");
                 await Task.WhenAll(CreateServers().Select(s => s.RunAsync()));
                 return 0;
             }
