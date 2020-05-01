@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace MiniMe.AllNet.Protocols
 {
-    public class PowerOnPayload
+    public class PowerOnRequest
     {
         [JsonProperty("game_id")]
         public string GameId { get; set; }

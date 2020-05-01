@@ -31,8 +31,8 @@ namespace MiniMe.Core
 
             _startupUris = new Dictionary<string, string>
             {
-                ["SDBT"] = $"http://{host}:{ports.Chunithm}",
-                ["SBZV"] = $"http://{host}:{ports.Diva}"
+                ["SDBT"] = $"http://{host}:{ports.Chunithm}/",
+                ["SBZV"] = $"http://{host}:{ports.Diva}/"
             };
         }
 

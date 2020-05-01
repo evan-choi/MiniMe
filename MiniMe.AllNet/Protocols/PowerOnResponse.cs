@@ -41,7 +41,7 @@ namespace MiniMe.AllNet.Protocols
         public string Country { get; set; }
 
         [JsonProperty("allnet_id")]
-        public string AllnetId { get; set; }
+        public string AllNetId { get; set; }
 
         [JsonProperty("client_timezone")]
         public string ClientTimezone { get; set; }

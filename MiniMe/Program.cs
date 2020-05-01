@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using MiniMe.AllNet;
@@ -20,6 +21,8 @@ namespace MiniMe
     {
         public static async Task<int> Main(string[] args)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -65,7 +68,8 @@ namespace MiniMe
             var address = dnsEntry.AddressList[0];
 
             yield return new AllNetServer(new IPEndPoint(address, SwitchBoard.Ports.AllNet));
-            yield return new BillingServer(new IPEndPoint(address, SwitchBoard.Ports.Billing));
+
+            //yield return new BillingServer(new IPEndPoint(address, SwitchBoard.Ports.Billing));
         }
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MiniMe.AllNet.Protocols;
 using MiniMe.Core;
-using MiniMe.Core.AspNetCore.Mvc;
 using MiniMe.Core.Utilities;
 
 namespace MiniMe.AllNet.Controllers
@@ -13,22 +12,22 @@ namespace MiniMe.AllNet.Controllers
     {
         [HttpPost("PowerOn")]
         [Consumes("application/x-www-form-urlencoded")]
-        public IActionResult PowerOnFromForm([FromBase64Form] PowerOnPayload payload)
+        public PowerOnResponse PowerOnFromForm(PowerOnRequest request)
         {
-            return PowerOn(payload);
+            return PowerOn(request);
         }
 
         [HttpPost("PowerOn")]
-        public IActionResult PowerOn([FromBody] PowerOnPayload payload)
+        public PowerOnResponse PowerOn([FromBody] PowerOnRequest request)
         {
             int hourDelta = int.Parse(ProcessEnvironment.GetEnvironmentVariable("HOUR_DELTA") ?? "0");
             var now = DateTime.UtcNow.AddHours(-hourDelta);
 
-            return Ok(new PowerOnResponse
+            return new PowerOnResponse
             {
                 Stat = 1,
-                Uri = SwitchBoard.GetStartupUri(payload.GameId),
-                Host = SwitchBoard.GetStartupHost(payload.GameId),
+                Uri = SwitchBoard.GetStartupUri(request.GameId) ?? string.Empty,
+                Host = SwitchBoard.GetStartupHost(request.GameId) ?? string.Empty,
                 PlaceId = "123",
                 Name = ProcessEnvironment.GetEnvironmentVariable("SHOW_NAME") ?? string.Empty,
                 Nickname = ProcessEnvironment.GetEnvironmentVariable("SHOW_NAME") ?? string.Empty,
@@ -37,14 +36,14 @@ namespace MiniMe.AllNet.Controllers
                 RegionName1 = "X",
                 RegionName2 = "Y",
                 RegionName3 = "Z",
-                Country = ProcessEnvironment.GetEnvironmentVariable("SHOW_REGION") ?? string.Empty,
-                AllnetId = "456",
+                Country = ProcessEnvironment.GetEnvironmentVariable("SHOW_REGION") ?? "JPN",
+                AllNetId = "456",
                 ClientTimezone = "+0900",
                 UtcTime = $"{now:s}Z",
                 Setting = string.Empty,
                 ResVersion = "3",
-                Token = payload.Token
-            });
+                Token = request.Token
+            };
         }
     }
 }
