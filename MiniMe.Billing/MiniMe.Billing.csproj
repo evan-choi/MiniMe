@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="../PubKeyInfra/server.pfx" Link="Resources/server.pfx" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\MiniMe.Core\MiniMe.Core.csproj" />
+    </ItemGroup>
+
+</Project>
