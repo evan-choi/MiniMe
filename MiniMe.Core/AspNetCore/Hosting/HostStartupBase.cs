@@ -8,10 +8,6 @@ namespace MiniMe.Core.AspNetCore.Hosting
 {
     public abstract class HostStartupBase
     {
-        protected virtual void OnApplicationStarted()
-        {
-        }
-
         public virtual void Configure(IApplicationBuilder app)
         {
             app.UseRouting();
