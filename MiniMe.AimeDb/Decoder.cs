@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Text;
 using MiniMe.AimeDb.Protocols;
 using MiniMe.Core.Extension;
@@ -31,14 +30,14 @@ namespace MiniMe.AimeDb
 
         public static AimeRequest Decode(ref ReadOnlySpan<byte> packet)
         {
-            var opCode = packet.Read<ushort>(4);
+            var header = packet.Read<AimeHeader>();
 
-            if (_readers.TryGetValue(opCode, out var decoder))
+            if (_readers.TryGetValue(header.OpCode, out var decoder))
             {
                 return decoder(ref packet);
             }
 
-            throw new InvalidOperationException($"Unknown operation code 0x{opCode:X}({opCode})");
+            throw new InvalidOperationException($"Unknown operation code 0x{header.OpCode:X}({header.OpCode})");
         }
 
         #region Decoders

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using MiniMe.AimeDb.Protocols;
 using MiniMe.Core.Extension;
 
@@ -27,10 +26,13 @@ namespace MiniMe.AimeDb
             Span<byte> packet = new byte[size];
 
             // header
-            packet.Write((ushort)0xa13e, 0); // Magic?
-            packet.Write((ushort)0x3087, 2); // ???
-            packet.Write(opCode, 4);
-            packet.Write(size, 6);
+            packet.Write(new AimeHeader
+            {
+                Id = 0xa13e,
+                Id2 = 0x3087,
+                OpCode = opCode,
+                FrameLength = size
+            });
 
             return packet;
         }

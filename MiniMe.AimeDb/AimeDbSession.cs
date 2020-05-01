@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using MiniMe.AimeDb.Protocols;
@@ -56,32 +57,30 @@ namespace MiniMe.AimeDb
                     _incompleteFrame = null;
                 }
 
-                if (packet.Length < 8)
+                if (packet.Length < Marshal.SizeOf<AimeHeader>())
                 {
                     _incompleteFrame = new ByteBuffer(packet.ToArray());
                     return;
                 }
 
-                var magic = packet.Read<ushort>(0);
+                var header = packet.Read<AimeHeader>();
 
-                if (magic != 0xa13e)
+                if (header.Id != 0xa13e)
                 {
-                    throw new InvalidOperationException($"Invalid magic 0x{magic:X}({magic})");
+                    throw new InvalidOperationException($"Invalid magic 0x{header.Id:X}({header.Id})");
                 }
 
-                var frameLength = packet.Read<ushort>(6);
-
-                if (packet.Length < frameLength)
+                if (packet.Length < header.FrameLength)
                 {
                     _incompleteFrame = new ByteBuffer(packet.ToArray());
                     return;
                 }
 
-                OnFrameReceived(packet.Slice(0, frameLength), reciveTime);
+                OnFrameReceived(packet.Slice(0, header.FrameLength), reciveTime);
 
-                if (packet.Length > frameLength)
+                if (packet.Length > header.FrameLength)
                 {
-                    packet = packet.Slice(frameLength);
+                    packet = packet.Slice(header.FrameLength);
                     continue;
                 }
 
@@ -91,19 +90,16 @@ namespace MiniMe.AimeDb
 
         private void OnFrameReceived(ReadOnlySpan<byte> packet, DateTime reciveTime)
         {
-            var duration = DateTime.Now - reciveTime;
-
             var request = Decoder.Decode(ref packet);
             var response = HandleRequest(request);
 
-            _logger?.Information("{id} Response {@response} in {ms:0.0000}ms", Id, response, duration.TotalMilliseconds);
-
             if (response != null)
             {
-                ReadOnlySpan<byte> reply = Encoder.Encode(response);
-
-                Send(reply);
+                Send(Encoder.Encode(response));
             }
+
+            var duration = DateTime.Now - reciveTime;
+            _logger?.Information("{id} Response {@response} in {ms:0.0000}ms", Id, response, duration.TotalMilliseconds);
         }
 
         // TODO: refactoring
