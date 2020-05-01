@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\MiniMe.AimeDb\MiniMe.AimeDb.csproj" />
       <ProjectReference Include="..\MiniMe.AllNet\MiniMe.AllNet.csproj" />
       <ProjectReference Include="..\MiniMe.Billing\MiniMe.Billing.csproj" />
       <ProjectReference Include="..\MiniMe.Core\MiniMe.Core.csproj" />
