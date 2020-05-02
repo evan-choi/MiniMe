@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using MiniMe.AimeDb.Protocols;
+using MiniMe.AimeDb.Protocols.Serialization;
 using MiniMe.Core.Extension;
 using MiniMe.Core.IO;
 using MiniMe.Core.Net;
@@ -13,6 +14,7 @@ namespace MiniMe.AimeDb
 {
     public sealed class AimeDbSession : TcpSession
     {
+        private readonly AimeDbHandler _handler;
         private readonly ILogger _logger;
 
         private ByteBuffer _incompleteFrame;
@@ -20,6 +22,7 @@ namespace MiniMe.AimeDb
         public AimeDbSession(ILogger logger)
         {
             _logger = logger;
+            _handler = new AimeDbHandler(this, logger);
 
             AddReceiveTransform(new CryptoPacketTransform(_decryptor, true));
             AddSendTransform(new CryptoPacketTransform(_encryptor));
@@ -90,33 +93,19 @@ namespace MiniMe.AimeDb
 
         private void OnFrameReceived(ReadOnlySpan<byte> packet, DateTime reciveTime)
         {
-            var request = Decoder.Decode(ref packet);
-            var response = HandleRequest(request);
+            var request = AimeDecoder.Decode(ref packet);
+
+            _logger?.Information("{id} Request {@request} received.", Id, request);
+
+            var response = _handler.Dispatch(request);
 
             if (response != null)
             {
-                Send(Encoder.Encode(response));
+                Send(AimeEncoder.Encode(response));
             }
 
             var duration = DateTime.Now - reciveTime;
             _logger?.Information("{id} Response {@response} in {ms:0.0000}ms", Id, response, duration.TotalMilliseconds);
-        }
-
-        // TODO: refactoring
-        private AimeResponse HandleRequest(AimeRequest request)
-        {
-            _logger?.Information("{id} Request {@request} received.", Id, request);
-
-            switch (request)
-            {
-                case HelloRequest _:
-                    return new HelloResponse { Status = 1 };
-
-                case GoodbyeRequest _:
-                    return null;
-            }
-
-            throw new InvalidOperationException();
         }
 
         #region Crypto
