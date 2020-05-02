@@ -59,7 +59,7 @@ namespace MiniMe.AimeDb.Protocols.Serialization
             var request = new Lookup2Request();
 
             ReadMetadata(request, ref packet);
-            request.Luid = HexUtility.ToHexString(packet.Slice(20, 22));
+            request.Luid = HexUtility.ToHexString(packet.Slice(32, 10));
 
             return request;
         }
@@ -95,7 +95,7 @@ namespace MiniMe.AimeDb.Protocols.Serialization
             var request = new RegisterRequest();
 
             ReadMetadata(request, ref packet);
-            request.Luid = HexUtility.ToHexString(packet.Slice(20, 22));
+            request.Luid = HexUtility.ToHexString(packet.Slice(32, 10));
 
             return request;
         }
@@ -105,7 +105,7 @@ namespace MiniMe.AimeDb.Protocols.Serialization
             var request = new Lookup2Request();
 
             ReadMetadata(request, ref packet);
-            request.Luid = HexUtility.ToHexString(packet.Slice(20, 22));
+            request.Luid = HexUtility.ToHexString(packet.Slice(32, 10));
 
             return request;
         }
