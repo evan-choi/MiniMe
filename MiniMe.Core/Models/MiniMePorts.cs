@@ -2,7 +2,7 @@
 {
     public class MiniMePorts
     {
-        public int AimeDb { get; set; }
+        public int Aime { get; set; }
 
         public int AllNet { get; set; }
 

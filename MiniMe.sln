@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniMe.Core", "MiniMe.Core\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniMe.Billing", "MiniMe.Billing\MiniMe.Billing.csproj", "{9633116B-013F-4113-995F-D4CC5821A852}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniMe.AimeDb", "MiniMe.AimeDb\MiniMe.AimeDb.csproj", "{282939B1-5020-4432-9543-385C9090EA46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniMe.Aime", "MiniMe.Aime\MiniMe.Aime.csproj", "{282939B1-5020-4432-9543-385C9090EA46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

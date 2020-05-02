@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using MiniMe.AimeDb;
+using MiniMe.Aime;
 using MiniMe.AllNet;
 using MiniMe.Core;
 using MiniMe.Core.AspNetCore.Extensions;
-using MiniMe.Core.Extension;
+using MiniMe.Core.Data;
 using MiniMe.Core.Models;
 using Serilog;
 using Serilog.Events;
@@ -26,7 +25,7 @@ namespace MiniMe
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
+                .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Information)
                 .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning)
@@ -43,6 +42,8 @@ namespace MiniMe
                 config.GetValue<string>("Host"),
                 config.GetOptions<MiniMePorts>("Port"));
 
+            MiniMeContext.Initialize();
+
             try
             {
                 Log.Information("Starting MiniMe");
@@ -51,7 +52,7 @@ namespace MiniMe
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Host terminated unexpectedly");
+                Log.Fatal(ex, "MiniMe terminated unexpectedly");
                 return 1;
             }
             finally
@@ -69,7 +70,7 @@ namespace MiniMe
 
             var address = dnsEntry.AddressList[0];
 
-            yield return new AimeDbServer(new IPEndPoint(address, SwitchBoard.Ports.AimeDb));
+            yield return new AimeServer(new IPEndPoint(address, SwitchBoard.Ports.Aime));
             yield return new AllNetServer(new IPEndPoint(address, SwitchBoard.Ports.AllNet));
 
             //yield return new BillingServer(new IPEndPoint(address, SwitchBoard.Ports.Billing));

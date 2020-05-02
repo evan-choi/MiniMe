@@ -36,10 +36,12 @@ namespace MiniMe.Core.Net
 
             NextAccept(_socketEventArg);
 
-            while (_socket.Connected)
+            while (!(_socket.Poll(1, SelectMode.SelectRead) && _socket.Available == 0))
             {
                 await Task.Delay(1000);
             }
+
+            OnShutdown();
         }
 
         private void OnAsyncCompleted(object sender, SocketAsyncEventArgs e)
@@ -85,6 +87,10 @@ namespace MiniMe.Core.Net
         }
 
         protected virtual void OnListen()
+        {
+        }
+
+        protected virtual void OnShutdown()
         {
         }
 
