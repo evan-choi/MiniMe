@@ -12,11 +12,5 @@ namespace MiniMe.Aime.Data
         {
             options.UseSqlite($"Data Source={MiniMeEnvironment.GetDataFile("aime.db")}");
         }
-
-        public static void Initialize()
-        {
-            using var context = new AimeContext();
-            context.Database.Migrate();
-        }
     }
 }

@@ -8,6 +8,7 @@
       <ProjectReference Include="..\MiniMe.Aime\MiniMe.Aime.csproj" />
       <ProjectReference Include="..\MiniMe.AllNet\MiniMe.AllNet.csproj" />
       <ProjectReference Include="..\MiniMe.Billing\MiniMe.Billing.csproj" />
+      <ProjectReference Include="..\MiniMe.Chunithm\MiniMe.Chunithm.csproj" />
       <ProjectReference Include="..\MiniMe.Core\MiniMe.Core.csproj" />
     </ItemGroup>
     

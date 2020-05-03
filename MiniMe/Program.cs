@@ -1,35 +1,44 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using MiniMe.Aime;
 using MiniMe.AllNet;
+using MiniMe.Chunithm;
 using MiniMe.Core;
 using MiniMe.Core.AspNetCore.Extensions;
 using MiniMe.Core.Models;
 using MiniMe.Core.Utilities;
 using Serilog;
-using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
 namespace MiniMe
 {
     public static class Program
     {
-        public static async Task<int> Main(string[] args)
+        private static ServerBase[] _servers;
+        private static bool _terminating;
+
+        private static void Initialize()
         {
+            // Encodings
+
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            // Logger
 
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console(
                     theme: AnsiConsoleTheme.Code,
                     outputTemplate: "[MiniMe {Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
+
+            // SwitchBoard
 
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -39,33 +48,79 @@ namespace MiniMe
             SwitchBoard.Initialize(
                 config.GetValue<string>("Host"),
                 config.GetOptions<MiniMePorts>("Port"));
+            
+            // Console Patch
+            ConsoleUtility.HookExit(Terminate);
+        }
 
-            ServerBase[] servers = CreateServers().ToArray();
+        public static int Main()
+        {
+            Initialize();
+
+            _servers = CreateServers().ToArray();
+
+            Log.Information("Starting");
+
+            var exceptinoBag = new ConcurrentBag<Exception>();
+            var serverEvent = new CountdownEvent(_servers.Length);
+
+            foreach (var server in _servers)
+            {
+                var thr = new Thread(() =>
+                {
+                    try
+                    {
+                        server.Start();
+                    }
+                    catch (Exception e)
+                    {
+                        exceptinoBag.Add(e);
+                        Terminate();
+                    }
+                    finally
+                    {
+                        serverEvent.Signal();
+                    }
+                })
+                {
+                    IsBackground = true
+                };
+
+                thr.Start();
+            }
+
+            serverEvent.Wait();
 
             try
             {
-                var cancellationTokenSource = new CancellationTokenSource();
-
-                ConsoleUtility.HookExit(() =>
+                if (exceptinoBag.Count > 0)
                 {
-                    Log.Information("Terminating..");
-                    cancellationTokenSource.Cancel();
-                });
+                    Log.Fatal(new AggregateException(exceptinoBag), "Terminated unexpectedly");
+                    return 1;
+                }
 
-                Log.Information("Starting");
-                await Task.WhenAll(servers.Select(s => s.RunAsync(cancellationTokenSource.Token)));
                 Log.Information("Terminated successfully");
-
                 return 0;
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Terminated unexpectedly");
-                return 1;
             }
             finally
             {
                 Log.CloseAndFlush();
+            }
+        }
+
+        private static void Terminate()
+        {
+            if (_terminating)
+            {
+                return;
+            }
+
+            _terminating = true;
+            Log.Information("Terminating..");
+
+            foreach (var server in _servers)
+            {
+                server.Stop();
             }
         }
 
@@ -80,7 +135,7 @@ namespace MiniMe
 
             yield return new AimeServer(new IPEndPoint(address, SwitchBoard.Ports.Aime));
             yield return new AllNetServer(new IPEndPoint(address, SwitchBoard.Ports.AllNet));
-
+            //yield return new ChunithmServer(new IPEndPoint(address, SwitchBoard.Ports.Chunithm));
             //yield return new BillingServer(new IPEndPoint(address, SwitchBoard.Ports.Billing));
         }
     }

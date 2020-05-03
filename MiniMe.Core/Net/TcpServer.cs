@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MiniMe.Core.Net
 {
@@ -14,6 +13,7 @@ namespace MiniMe.Core.Net
 
         private Socket _socket;
         private SocketAsyncEventArgs _socketEventArg;
+        private bool _stop;
 
         private readonly ConcurrentDictionary<Guid, TSession> _sessions = new ConcurrentDictionary<Guid, TSession>();
 
@@ -21,7 +21,7 @@ namespace MiniMe.Core.Net
         {
         }
 
-        public override async Task RunAsync(CancellationToken token)
+        public override void Start()
         {
             if (_socket != null)
                 throw new InvalidOperationException();
@@ -40,18 +40,17 @@ namespace MiniMe.Core.Net
 
             NextAccept(_socketEventArg);
 
-            while (!token.IsCancellationRequested && IsAlive)
+            while (!_stop && IsAlive)
             {
-                try
-                {
-                    await Task.Delay(1000, token);
-                }
-                catch (TaskCanceledException)
-                {
-                }
+                Thread.Sleep(1000);
             }
 
             EnsureShutdown();
+        }
+
+        public override void Stop()
+        {
+            _stop = true;
         }
 
         private void EnsureShutdown()

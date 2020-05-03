@@ -110,7 +110,7 @@ function Run-Migration($project) {
 
         $input = Read-Host "Project"
         
-        if (!(Verify-Index $input -Min 1 -Max 3)) {
+        if (!(Verify-Index $input -Min 1 -Max 4)) {
             continue
         }
 
@@ -135,6 +135,7 @@ function Run-Migration($project) {
         Write-Host
         Write-Host 'Done'
 
+        pause
         return
     }
 }

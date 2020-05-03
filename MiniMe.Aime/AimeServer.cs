@@ -7,7 +7,7 @@ using MiniMe.Core.Net;
 namespace MiniMe.Aime
 {
     [LoggerName("\u001b[38;5;5mAime")]
-    public class AimeServer : TcpServer<AimeSession>
+    public sealed class AimeServer : TcpServer<AimeSession>
     {
         private AimeContext _context;
         private AimeUserRepository _repository;
