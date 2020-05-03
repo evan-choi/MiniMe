@@ -1,2 +1,2 @@
 # MiniMe
-A simple self-hosted ALLNET/AiMe server, written in .NET Core 3.1
+A simple self-hosted ALLNet/AiMe server, written in .NET Core 3.1
