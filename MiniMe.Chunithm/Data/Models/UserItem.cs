@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MiniMe.Chunithm.Data.Models
 {
-    public class UserItem
+    public class UserItem : Protocols.UserItem
     {
         [Key]
         [Required]
@@ -11,13 +11,5 @@ namespace MiniMe.Chunithm.Data.Models
 
         [Required]
         public Guid ProfileId { get; set; }
-
-        public int ItemKind { get; set; }
-
-        public int ItemId { get; set; }
-
-        public int Stock { get; set; }
-
-        public bool IsValid { get; set; }
     }
 }

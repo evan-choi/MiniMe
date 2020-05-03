@@ -9,7 +9,7 @@ using MiniMe.Aime.Data;
 namespace MiniMe.Aime.Data.Migrations
 {
     [DbContext(typeof(AimeContext))]
-    [Migration("20200503131540_InitialCreate")]
+    [Migration("20200503161451_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

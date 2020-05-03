@@ -12,14 +12,14 @@ namespace MiniMe.Chunithm.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ProfileId = table.Column<Guid>(nullable: false),
                     Kind = table.Column<int>(nullable: false),
                     ActivityId = table.Column<int>(nullable: false),
                     SortNumber = table.Column<int>(nullable: false),
                     Param1 = table.Column<int>(nullable: false),
                     Param2 = table.Column<int>(nullable: false),
                     Param3 = table.Column<int>(nullable: false),
-                    Param4 = table.Column<int>(nullable: false)
+                    Param4 = table.Column<int>(nullable: false),
+                    ProfileId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,7 +31,6 @@ namespace MiniMe.Chunithm.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ProfileId = table.Column<Guid>(nullable: false),
                     CharacterId = table.Column<int>(nullable: false),
                     PlayCount = table.Column<int>(nullable: false),
                     Level = table.Column<int>(nullable: false),
@@ -40,7 +39,8 @@ namespace MiniMe.Chunithm.Data.Migrations
                     IsValid = table.Column<bool>(nullable: false),
                     IsNewMark = table.Column<bool>(nullable: false),
                     Param1 = table.Column<int>(nullable: false),
-                    Param2 = table.Column<int>(nullable: false)
+                    Param2 = table.Column<int>(nullable: false),
+                    ProfileId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,7 +52,6 @@ namespace MiniMe.Chunithm.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ProfileId = table.Column<Guid>(nullable: false),
                     CourseId = table.Column<int>(nullable: false),
                     ClassId = table.Column<int>(nullable: false),
                     PlayCount = table.Column<int>(nullable: false),
@@ -67,7 +66,8 @@ namespace MiniMe.Chunithm.Data.Migrations
                     Param2 = table.Column<int>(nullable: false),
                     Param3 = table.Column<int>(nullable: false),
                     Param4 = table.Column<int>(nullable: false),
-                    IsClear = table.Column<bool>(nullable: false)
+                    IsClear = table.Column<bool>(nullable: false),
+                    ProfileId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,7 +75,7 @@ namespace MiniMe.Chunithm.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DataExts",
+                name: "DataExs",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -116,7 +116,7 @@ namespace MiniMe.Chunithm.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DataExts", x => x.Id);
+                    table.PrimaryKey("PK_DataExs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,7 +124,6 @@ namespace MiniMe.Chunithm.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    PlayerId = table.Column<Guid>(nullable: false),
                     AccessCode = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     IsWebJoin = table.Column<bool>(nullable: false),
@@ -172,7 +171,8 @@ namespace MiniMe.Chunithm.Data.Migrations
                     LastRegionId = table.Column<string>(nullable: true),
                     LastRegionName = table.Column<string>(nullable: true),
                     LastAllNetId = table.Column<string>(nullable: true),
-                    LastClientId = table.Column<string>(nullable: true)
+                    LastClientId = table.Column<string>(nullable: true),
+                    PlayerId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -184,7 +184,6 @@ namespace MiniMe.Chunithm.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ProfileId = table.Column<Guid>(nullable: false),
                     DuelId = table.Column<int>(nullable: false),
                     Progress = table.Column<int>(nullable: false),
                     Point = table.Column<int>(nullable: false),
@@ -193,7 +192,8 @@ namespace MiniMe.Chunithm.Data.Migrations
                     Param1 = table.Column<int>(nullable: false),
                     Param2 = table.Column<int>(nullable: false),
                     Param3 = table.Column<int>(nullable: false),
-                    Param4 = table.Column<int>(nullable: false)
+                    Param4 = table.Column<int>(nullable: false),
+                    ProfileId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,7 +201,7 @@ namespace MiniMe.Chunithm.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameOptionExts",
+                name: "GameOptionExs",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -228,7 +228,7 @@ namespace MiniMe.Chunithm.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameOptionExts", x => x.Id);
+                    table.PrimaryKey("PK_GameOptionExs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -269,11 +269,11 @@ namespace MiniMe.Chunithm.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ProfileId = table.Column<Guid>(nullable: false),
                     ItemKind = table.Column<int>(nullable: false),
                     ItemId = table.Column<int>(nullable: false),
                     Stock = table.Column<int>(nullable: false),
-                    IsValid = table.Column<bool>(nullable: false)
+                    IsValid = table.Column<bool>(nullable: false),
+                    ProfileId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -285,7 +285,6 @@ namespace MiniMe.Chunithm.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ProfileId = table.Column<Guid>(nullable: false),
                     MapId = table.Column<int>(nullable: false),
                     Position = table.Column<int>(nullable: false),
                     IsClear = table.Column<bool>(nullable: false),
@@ -294,7 +293,8 @@ namespace MiniMe.Chunithm.Data.Migrations
                     EventId = table.Column<int>(nullable: false),
                     Rate = table.Column<int>(nullable: false),
                     StatusCount = table.Column<int>(nullable: false),
-                    IsValid = table.Column<bool>(nullable: false)
+                    IsValid = table.Column<bool>(nullable: false),
+                    ProfileId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -306,7 +306,6 @@ namespace MiniMe.Chunithm.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ProfileId = table.Column<Guid>(nullable: false),
                     MusicId = table.Column<int>(nullable: false),
                     Level = table.Column<int>(nullable: false),
                     PlayCount = table.Column<int>(nullable: false),
@@ -322,7 +321,8 @@ namespace MiniMe.Chunithm.Data.Migrations
                     FullChain = table.Column<int>(nullable: false),
                     MaxChain = table.Column<int>(nullable: false),
                     ScoreRank = table.Column<int>(nullable: false),
-                    IsLock = table.Column<bool>(nullable: false)
+                    IsLock = table.Column<bool>(nullable: false),
+                    ProfileId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -334,7 +334,6 @@ namespace MiniMe.Chunithm.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ProfileId = table.Column<Guid>(nullable: false),
                     OrderId = table.Column<int>(nullable: false),
                     Sortint = table.Column<int>(nullable: false),
                     PlaceId = table.Column<int>(nullable: false),
@@ -384,7 +383,8 @@ namespace MiniMe.Chunithm.Data.Migrations
                     SkillLevel = table.Column<int>(nullable: false),
                     SkillEffect = table.Column<int>(nullable: false),
                     PlaceName = table.Column<string>(nullable: true),
-                    IsMaimai = table.Column<bool>(nullable: false)
+                    IsMaimai = table.Column<bool>(nullable: false),
+                    ProfileId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -404,7 +404,7 @@ namespace MiniMe.Chunithm.Data.Migrations
                 name: "Courses");
 
             migrationBuilder.DropTable(
-                name: "DataExts");
+                name: "DataExs");
 
             migrationBuilder.DropTable(
                 name: "Datas");
@@ -413,7 +413,7 @@ namespace MiniMe.Chunithm.Data.Migrations
                 name: "DuelLists");
 
             migrationBuilder.DropTable(
-                name: "GameOptionExts");
+                name: "GameOptionExs");
 
             migrationBuilder.DropTable(
                 name: "GameOptions");

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MiniMe.Chunithm.Data.Models
 {
-    public class UserActivity
+    public class UserActivity : Protocols.UserActivity
     {
         [Key]
         [Required]
@@ -11,19 +11,5 @@ namespace MiniMe.Chunithm.Data.Models
 
         [Required]
         public Guid ProfileId { get; set; }
-
-        public int Kind { get; set; }
-
-        public int ActivityId { get; set; }
-
-        public int SortNumber { get; set; }
-
-        public int Param1 { get; set; }
-
-        public int Param2 { get; set; }
-
-        public int Param3 { get; set; }
-
-        public int Param4 { get; set; }
     }
 }

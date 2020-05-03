@@ -309,7 +309,7 @@ namespace MiniMe.Chunithm.Data.Migrations
                     b.ToTable("Datas");
                 });
 
-            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserDataExt", b =>
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserDataEx", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -419,7 +419,7 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DataExts");
+                    b.ToTable("DataExs");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserDuelList", b =>
@@ -540,7 +540,7 @@ namespace MiniMe.Chunithm.Data.Migrations
                     b.ToTable("GameOptions");
                 });
 
-            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserGameOptionExt", b =>
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserGameOptionEx", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -608,7 +608,7 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GameOptionExts");
+                    b.ToTable("GameOptionExs");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserItem", b =>
@@ -740,7 +740,7 @@ namespace MiniMe.Chunithm.Data.Migrations
                     b.ToTable("Musics");
                 });
 
-            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserPaylog", b =>
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserPlayLog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

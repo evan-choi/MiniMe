@@ -14,13 +14,13 @@ namespace MiniMe.Chunithm.Data
 
         public DbSet<UserData> Datas { get; set; }
 
-        public DbSet<UserDataExt> DataExts { get; set; }
+        public DbSet<UserDataEx> DataExs { get; set; }
 
         public DbSet<UserDuelList> DuelLists { get; set; }
 
         public DbSet<UserGameOption> GameOptions { get; set; }
 
-        public DbSet<UserGameOptionExt> GameOptionExts { get; set; }
+        public DbSet<UserGameOptionEx> GameOptionExs { get; set; }
 
         public DbSet<UserItem> Items { get; set; }
 
@@ -28,7 +28,7 @@ namespace MiniMe.Chunithm.Data
 
         public DbSet<UserMusic> Musics { get; set; }
 
-        public DbSet<UserPaylog> Paylogs { get; set; }
+        public DbSet<UserPlayLog> Paylogs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
