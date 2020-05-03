@@ -1,9 +1,9 @@
-﻿using System;
+﻿﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MiniMe.Core.Data.Models
+namespace MiniMe.Aime.Data.Models
 {
-    public class AimeUser
+    public sealed class AimeUser
     {
         [Key]
         [Required]

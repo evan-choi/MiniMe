@@ -1,4 +1,4 @@
-﻿Set-Location (Get-Item $PSScriptRoot).Parent.Parent.FullName
+﻿﻿Set-Location (Get-Item $PSScriptRoot).Parent.Parent.FullName
 
 if ($Env:OS.StartsWith('Windows', 'CurrentCultureIgnoreCase'))
 {

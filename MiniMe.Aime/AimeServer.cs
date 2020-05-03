@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MiniMe.Aime.Data;
 using MiniMe.Core;
 using MiniMe.Core.Net;
@@ -9,6 +9,7 @@ namespace MiniMe.Aime
     [LoggerName("\u001b[38;5;5mAime")]
     public class AimeServer : TcpServer<AimeSession>
     {
+        private AimeContext _context;
         private AimeUserRepository _repository;
 
         public AimeServer(IPEndPoint endPoint) : base(endPoint)
@@ -20,26 +21,19 @@ namespace MiniMe.Aime
             return new AimeSession(_repository, Logger);
         }
 
-        protected override void OnListen()
+        protected override void OnInitialize()
         {
-            _repository = new AimeUserRepository();
-            Logger.Information("Now listening on: {endPoint}", $"tcp://{EndPoint}");
+            _context = new AimeContext();
+            _context.Database.Migrate();
+
+            _repository = new AimeUserRepository(_context);
         }
 
         protected override void OnShutdown()
         {
-            _repository?.Dispose();
+            _context?.Dispose();
+            _context = null;
             _repository = null;
-        }
-
-        protected override void OnSessionOpened(AimeSession session)
-        {
-            Logger.Information("{id} Session opened.", session.Id);
-        }
-
-        protected override void OnSessionClosed(AimeSession session)
-        {
-            Logger.Information("{id} Session closed.", session.Id);
         }
     }
 }

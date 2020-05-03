@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using MiniMe.Core.Data;
-using MiniMe.Core.Data.Models;
+using MiniMe.Aime.Data.Models;
 
 namespace MiniMe.Aime.Data
 {
-    public class AimeUserRepository : IDisposable
+    internal sealed class AimeUserRepository
     {
-        private readonly MiniMeContext _context;
+        private readonly AimeContext _context;
 
-        public AimeUserRepository()
+        public AimeUserRepository(AimeContext context)
         {
-            _context = new MiniMeContext();
+            _context = context;
         }
 
         public void Add(AimeUser user)
@@ -32,11 +31,6 @@ namespace MiniMe.Aime.Data
             }
 
             return user;
-        }
-
-        public void Dispose()
-        {
-            _context?.Dispose();
         }
     }
 }

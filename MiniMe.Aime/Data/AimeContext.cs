@@ -1,20 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MiniMe.Core.Data.Models;
+using MiniMe.Aime.Data.Models;
+using MiniMe.Core;
 
-namespace MiniMe.Core.Data
+namespace MiniMe.Aime.Data
 {
-    public class MiniMeContext : DbContext
+    public sealed class AimeContext : DbContext
     {
         public DbSet<AimeUser> AimeUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlite($"Data Source={MiniMeEnvironment.GetDataFile("minime.db")}");
+            options.UseSqlite($"Data Source={MiniMeEnvironment.GetDataFile("aime.db")}");
         }
 
         public static void Initialize()
         {
-            using var context = new MiniMeContext();
+            using var context = new AimeContext();
             context.Database.Migrate();
         }
     }

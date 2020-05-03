@@ -1,7 +1,7 @@
 ﻿using System;
 using MiniMe.Aime.Data;
+using MiniMe.Aime.Data.Models;
 using MiniMe.Aime.Protocols;
-using MiniMe.Core.Data.Models;
 using MiniMe.Core.Utilities;
 using Serilog;
 

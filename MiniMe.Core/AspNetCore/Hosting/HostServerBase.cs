@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -7,20 +8,19 @@ using Serilog;
 
 namespace MiniMe.Core.AspNetCore.Hosting
 {
-    public abstract class HostServerBase<TStartup> : ServerBase
-        where TStartup : HostStartupBase
+    public abstract class HostServerBase<TStartup> : ServerBase where TStartup : HostStartupBase
     {
         protected HostServerBase(IPEndPoint endPoint) : base(endPoint)
         {
         }
 
-        public override Task RunAsync()
+        public override Task RunAsync(CancellationToken cancellationToken)
         {
             return Host.CreateDefaultBuilder()
                 .ConfigureWebHostDefaults(ConfigureWebHostDefaults)
                 .UseSerilog(Logger)
                 .Build()
-                .RunAsync();
+                .RunAsync(cancellationToken);
         }
 
         protected virtual void ConfigureWebHostDefaults(IWebHostBuilder webBuilder)

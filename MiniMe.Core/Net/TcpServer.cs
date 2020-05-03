@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MiniMe.Core.Net
@@ -9,7 +10,7 @@ namespace MiniMe.Core.Net
     public abstract class TcpServer<TSession> : ServerBase
         where TSession : TcpSession
     {
-        public bool IsAlive => _socket?.Connected ?? false;
+        public bool IsAlive => _socket != null && !(_socket.Poll(1, SelectMode.SelectRead) && _socket.Available == 0);
 
         private Socket _socket;
         private SocketAsyncEventArgs _socketEventArg;
@@ -20,10 +21,12 @@ namespace MiniMe.Core.Net
         {
         }
 
-        public override async Task RunAsync()
+        public override async Task RunAsync(CancellationToken token)
         {
             if (_socket != null)
                 throw new InvalidOperationException();
+
+            OnInitialize();
 
             _socketEventArg = new SocketAsyncEventArgs();
             _socketEventArg.Completed += OnAsyncCompleted;
@@ -32,13 +35,36 @@ namespace MiniMe.Core.Net
             _socket.Bind(EndPoint);
             _socket.Listen(1024);
 
+            Logger.Information("Now listening on: {endPoint}", $"tcp://{EndPoint}");
             OnListen();
 
             NextAccept(_socketEventArg);
 
-            while (!(_socket.Poll(1, SelectMode.SelectRead) && _socket.Available == 0))
+            while (!token.IsCancellationRequested && IsAlive)
             {
-                await Task.Delay(1000);
+                try
+                {
+                    await Task.Delay(1000, token);
+                }
+                catch (TaskCanceledException)
+                {
+                }
+            }
+
+            EnsureShutdown();
+        }
+
+        private void EnsureShutdown()
+        {
+            try
+            {
+                _socket.Shutdown(SocketShutdown.Both);
+                _socket.Dispose();
+                _socket = null;
+            }
+            catch (Exception)
+            {
+                // ignored
             }
 
             OnShutdown();
@@ -67,6 +93,8 @@ namespace MiniMe.Core.Net
                 session.Disconnected += SessionOnDisconnected;
 
                 RegisterSession(session);
+
+                Logger.Information("{id} Session opened.", session.Id);
                 OnSessionOpened(session);
 
                 session.StartReceive();
@@ -82,8 +110,13 @@ namespace MiniMe.Core.Net
                 session.Disconnected -= SessionOnDisconnected;
                 UnregisterSession(session.Id);
 
+                Logger.Information("{id} Session closed.", session.Id);
                 OnSessionClosed(session);
             }
+        }
+
+        protected virtual void OnInitialize()
+        {
         }
 
         protected virtual void OnListen()

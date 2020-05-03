@@ -4,14 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using MiniMe.Aime;
 using MiniMe.AllNet;
 using MiniMe.Core;
 using MiniMe.Core.AspNetCore.Extensions;
-using MiniMe.Core.Data;
 using MiniMe.Core.Models;
+using MiniMe.Core.Utilities;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -25,12 +26,9 @@ namespace MiniMe
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Information)
-                .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning)
-                .Enrich.FromLogContext()
-                .WriteTo.Console(theme: AnsiConsoleTheme.Code)
+                .WriteTo.Console(
+                    theme: AnsiConsoleTheme.Code,
+                    outputTemplate: "[MiniMe {Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 
             var config = new ConfigurationBuilder()
@@ -42,17 +40,27 @@ namespace MiniMe
                 config.GetValue<string>("Host"),
                 config.GetOptions<MiniMePorts>("Port"));
 
-            MiniMeContext.Initialize();
+            ServerBase[] servers = CreateServers().ToArray();
 
             try
             {
-                Log.Information("Starting MiniMe");
-                await Task.WhenAll(CreateServers().Select(s => s.RunAsync()));
+                var cancellationTokenSource = new CancellationTokenSource();
+
+                ConsoleUtility.HookExit(() =>
+                {
+                    Log.Information("Terminating..");
+                    cancellationTokenSource.Cancel();
+                });
+
+                Log.Information("Starting");
+                await Task.WhenAll(servers.Select(s => s.RunAsync(cancellationTokenSource.Token)));
+                Log.Information("Terminated successfully");
+
                 return 0;
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "MiniMe terminated unexpectedly");
+                Log.Fatal(ex, "Terminated unexpectedly");
                 return 1;
             }
             finally

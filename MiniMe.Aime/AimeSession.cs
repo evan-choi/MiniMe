@@ -20,7 +20,7 @@ namespace MiniMe.Aime
 
         private ByteBuffer _incompleteFrame;
 
-        public AimeSession(AimeUserRepository repository, ILogger logger)
+        internal AimeSession(AimeUserRepository repository, ILogger logger)
         {
             _logger = logger;
             _handler = new AimeHandler(this, repository, logger);

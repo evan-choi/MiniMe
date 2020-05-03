@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MiniMe.Common.Data.Migrations
+namespace MiniMe.Aime.Data.Migrations
 {
     public partial class InitialCreate : Migration
     {

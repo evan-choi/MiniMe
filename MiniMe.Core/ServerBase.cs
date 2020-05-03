@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -32,6 +33,6 @@ namespace MiniMe.Core
             return nameAttribute?.Name ?? GetType().Name;
         }
 
-        public abstract Task RunAsync();
+        public abstract Task RunAsync(CancellationToken token);
     }
 }

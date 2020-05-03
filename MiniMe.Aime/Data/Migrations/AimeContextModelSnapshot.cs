@@ -2,23 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MiniMe.Core.Data;
+using MiniMe.Aime.Data;
 
-namespace MiniMe.Common.Data.Migrations
+namespace MiniMe.Aime.Data.Migrations
 {
-    [DbContext(typeof(MiniMeContext))]
-    [Migration("20200502202621_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(AimeContext))]
+    partial class AimeContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3");
 
-            modelBuilder.Entity("MiniMe.Core.Data.Models.AimeUser", b =>
+            modelBuilder.Entity("MiniMe.Aime.Data.Models.AimeUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
