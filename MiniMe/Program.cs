@@ -135,7 +135,7 @@ namespace MiniMe
 
             yield return new AimeServer(new IPEndPoint(address, SwitchBoard.Ports.Aime));
             yield return new AllNetServer(new IPEndPoint(address, SwitchBoard.Ports.AllNet));
-            //yield return new ChunithmServer(new IPEndPoint(address, SwitchBoard.Ports.Chunithm));
+            yield return new ChunithmServer(new IPEndPoint(address, SwitchBoard.Ports.Chunithm));
             //yield return new BillingServer(new IPEndPoint(address, SwitchBoard.Ports.Billing));
         }
     }
