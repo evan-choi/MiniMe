@@ -9,6 +9,7 @@ using System.Threading;
 using Microsoft.Extensions.Configuration;
 using MiniMe.Aime;
 using MiniMe.AllNet;
+using MiniMe.Billing;
 using MiniMe.Chunithm;
 using MiniMe.Core;
 using MiniMe.Core.AspNetCore.Extensions;
@@ -144,8 +145,7 @@ namespace MiniMe
             yield return new AimeServer(new IPEndPoint(address, switchBoard.Ports.Aime));
             yield return new AllNetServer(new IPEndPoint(address, switchBoard.Ports.AllNet));
             yield return new ChunithmServer(new IPEndPoint(address, switchBoard.Ports.Chunithm));
-
-            //yield return new BillingServer(new IPEndPoint(address, SwitchBoard.Ports.Billing));
+            yield return new BillingServer(new IPEndPoint(address, switchBoard.Ports.Billing));
         }
     }
 }

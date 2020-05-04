@@ -2,7 +2,7 @@
 using Ionic.Zlib;
 using Microsoft.AspNetCore.ResponseCompression;
 
-namespace MiniMe.Chunithm.Compression
+namespace MiniMe.Core.AspNetCore.ResponseCompression
 {
     public class ZlibCompressionProvider : ICompressionProvider
     {

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using MiniMe.Chunithm.Compression;
 using MiniMe.Chunithm.Data;
 using MiniMe.Chunithm.Middlewares;
 using MiniMe.Core;
+using MiniMe.Core.AspNetCore.ResponseCompression;
+using MiniMe.Core.AspNetCore.RequestDecompression;
 using MiniMe.Core.AspNetCore.Hosting;
 using MiniMe.Core.Repositories;
 
@@ -15,7 +16,7 @@ namespace MiniMe.Chunithm
         public override void Configure(IApplicationBuilder app)
         {
             app.UseMiddleware<QuirksMiddleware>();
-            app.UseMiddleware<DecompressionMiddleware>();
+            app.UseRequestDecompression();
             app.UseResponseCompression();
 
             base.Configure(app);
@@ -26,6 +27,10 @@ namespace MiniMe.Chunithm
             services
                 .AddDbContext<ChunithmContext>()
                 .AddSingleton(MiniMeService.Get<IAimeService>())
+                .AddRequestDecompression(o =>
+                {
+                    o.Providers.Add<ZlibDecompressionProvider>();
+                })
                 .AddResponseCompression(o =>
                 {
                     o.Providers.Add<ZlibCompressionProvider>();
@@ -36,7 +41,6 @@ namespace MiniMe.Chunithm
 
         protected override void ConfigureJson(MvcNewtonsoftJsonOptions options)
         {
-            //options.SerializerSettings.Converters.Add(new PrimitiveToStringConverter());
             options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
         }
     }
