@@ -1,11 +1,12 @@
 ﻿using System.IO;
 using Ionic.Zlib;
+using Microsoft.AspNetCore.Http;
 
 namespace MiniMe.Core.AspNetCore.RequestDecompression
 {
-    public class ZlibDecompressionProvider : IDecompressionProvider
+    public class ZlibDecompressionProvider : RequestDecompressionProvider
     {
-        public Stream CreateStream(Stream inputStream)
+        protected override Stream CreateStream(Stream inputStream, IHeaderDictionary headers)
         {
             return new ZlibStream(inputStream, CompressionMode.Decompress);
         }

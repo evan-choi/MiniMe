@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Options;
 
 namespace MiniMe.Core.AspNetCore.RequestDecompression
@@ -19,9 +20,14 @@ namespace MiniMe.Core.AspNetCore.RequestDecompression
         {
             var stream = context.Request.Body;
 
+            // Kestrel server does not support synchronous I/O
+            var bodyFeature = context.Features.Get<IHttpBodyControlFeature>();
+            var allowSynchronousIO = bodyFeature.AllowSynchronousIO;
+            bodyFeature.AllowSynchronousIO = true;
+
             foreach (var provider in _providers)
             {
-                stream = provider.CreateStream(stream);
+                stream = provider.CreateStream(stream, context.Request.Headers);
             }
 
             MemoryStream decoded = default;
@@ -48,6 +54,8 @@ namespace MiniMe.Core.AspNetCore.RequestDecompression
                 {
                     await decoded.DisposeAsync();
                 }
+
+                bodyFeature.AllowSynchronousIO = allowSynchronousIO;
             }
         }
     }

@@ -1,11 +1,12 @@
 ﻿using System.IO;
 using System.IO.Compression;
+using Microsoft.AspNetCore.Http;
 
 namespace MiniMe.Core.AspNetCore.RequestDecompression
 {
-    public class DeflateDecompressionProvider : IDecompressionProvider
+    public class DeflateDecompressionProvider : RequestDecompressionProvider
     {
-        public Stream CreateStream(Stream outputStream)
+        protected override Stream CreateStream(Stream outputStream, IHeaderDictionary headers)
         {
             return new DeflateStream(outputStream, CompressionMode.Decompress);
         }

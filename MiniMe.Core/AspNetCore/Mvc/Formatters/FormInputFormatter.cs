@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Ionic.Zlib;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Newtonsoft.Json.Linq;
+using Serilog;
 
 namespace MiniMe.Core.AspNetCore.Mvc.Formatters
 {
@@ -20,34 +22,63 @@ namespace MiniMe.Core.AspNetCore.Mvc.Formatters
 
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
         {
-            using var reader = new StreamReader(context.HttpContext.Request.Body);
-            var base64 = await reader.ReadToEndAsync();
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
-            if (string.IsNullOrEmpty(base64))
-                return await InputFormatterResult.FailureAsync();
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
 
-            var result = await DeserailizeBase64Async(base64, context.ModelType);
+            try
+            {
+                using var reader = new StreamReader(context.HttpContext.Request.Body, encoding);
+                var value = await reader.ReadToEndAsync();
 
-            return await InputFormatterResult.SuccessAsync(result);
+                IEnumerable<string> lines = Regex.Split(value, "[\r\n]+")
+                    .Select(v => v.Trim(' '))
+                    .Where(v => !string.IsNullOrEmpty(v));
+
+                JToken result;
+
+                if (context.ModelType.IsArray || typeof(IEnumerable<>).IsAssignableFrom(context.ModelType))
+                {
+                    var array = new JArray();
+
+                    foreach (var obj in lines.Select(Deserialize))
+                    {
+                        array.Add(obj);
+                    }
+
+                    result = array;
+                }
+                else
+                {
+                    result = Deserialize(lines.First());
+                }
+
+                return await InputFormatterResult.SuccessAsync(result.ToObject(context.ModelType));
+            }
+            catch (Exception e)
+            {
+                Log.Fatal(e, e.Message);
+            }
+
+            return await InputFormatterResult.FailureAsync();
         }
 
-        private async Task<object> DeserailizeBase64Async(string base64, Type modelType)
+        private static JObject Deserialize(string formData)
         {
-            await using var buffer = new MemoryStream(Convert.FromBase64String(base64));
-            await using var zlibStream = new ZlibStream(buffer, CompressionMode.Decompress);
-            using var reader = new StreamReader(zlibStream);
-            var value = await reader.ReadToEndAsync();
-
-            value = value.TrimEnd('\r', '\n');
-
             var jObj = new JObject();
 
-            foreach (string[] kv in value.Split('&').Select(kv => kv.Split('=', 2)))
+            foreach (string[] kv in formData.Split('&').Select(kv => kv.Split('=', 2)))
             {
                 jObj[kv[0]] = kv[1];
             }
 
-            return jObj.ToObject(modelType);
+            return jObj;
         }
     }
 }

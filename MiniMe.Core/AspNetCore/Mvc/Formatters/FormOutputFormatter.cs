@@ -15,9 +15,6 @@ namespace MiniMe.Core.AspNetCore.Mvc.Formatters
         public FormOutputFormatter()
         {
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/plain"));
-
-            // Shift-JIS
-            SupportedEncodings.Add(Encoding.GetEncoding(932));
         }
 
         public override bool CanWriteResult(OutputFormatterCanWriteContext context)
@@ -37,14 +34,30 @@ namespace MiniMe.Core.AspNetCore.Mvc.Formatters
                 throw new ArgumentNullException(nameof(selectedEncoding));
             }
 
-            IEnumerable<string> propertyParams = JObject.FromObject(context.Object)
+            string result;
+
+            if (context.Object is IEnumerable<object> enumerable)
+            {
+                result = string.Join(Environment.NewLine, enumerable.Select(Serialize));
+            }
+            else
+            {
+                result = Serialize(context.Object);
+            }
+
+            result += Environment.NewLine;
+
+            await context.HttpContext.Response.WriteAsync(result, selectedEncoding);
+        }
+
+        private static string Serialize(object obj)
+        {
+            IEnumerable<string> propertyParams = JObject.FromObject(obj)
                 .Children()
                 .OfType<JProperty>()
                 .Select(p => $"{p.Name}={p.Value}");
 
-            string result = string.Join("&", propertyParams) + '\n';
-
-            await context.HttpContext.Response.WriteAsync(result, selectedEncoding);
+            return string.Join("&", propertyParams);
         }
     }
 }
