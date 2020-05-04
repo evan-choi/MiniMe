@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace MiniMe.Chunithm.Protocols.Response
+namespace MiniMe.Chunithm.Protocols
 {
     public class GetUserPreviewResponse
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         public bool IsLogin { get; set; }
 
@@ -16,13 +16,13 @@ namespace MiniMe.Chunithm.Protocols.Response
         #region UserData
         public string UserName { get; set; }
 
-        public string ReincarnationNum { get; set; }
+        public int ReincarnationNum { get; set; }
 
-        public string Level { get; set; }
+        public int Level { get; set; }
 
-        public string Exp { get; set; }
+        public int Exp { get; set; }
 
-        public string PlayerRating { get; set; }
+        public int PlayerRating { get; set; }
 
         public string LastGameId { get; set; }
 
@@ -30,9 +30,9 @@ namespace MiniMe.Chunithm.Protocols.Response
 
         public string LastDataVersion { get; set; }
 
-        public string LastPlayDate { get; set; }
+        public DateTime LastPlayDate { get; set; }
 
-        public string TrophyId { get; set; }
+        public int TrophyId { get; set; }
         #endregion
 
         #region Selected UserCharacter
@@ -40,11 +40,11 @@ namespace MiniMe.Chunithm.Protocols.Response
         #endregion
 
         #region UserGameOption
-        public string PlayerLevel { get; set; }
+        public int PlayerLevel { get; set; }
 
-        public string Rating { get; set; }
+        public int Rating { get; set; }
 
-        public string Headphone { get; set; }
+        public int Headphone { get; set; }
         #endregion
     }
 }

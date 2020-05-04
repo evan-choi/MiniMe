@@ -1,4 +1,4 @@
-﻿namespace MiniMe.Chunithm.Protocols.Response
+﻿namespace MiniMe.Chunithm.Protocols
 {
     public class UpsertUserAllResponse
     {

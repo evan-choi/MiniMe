@@ -13,6 +13,7 @@ using MiniMe.Chunithm;
 using MiniMe.Core;
 using MiniMe.Core.AspNetCore.Extensions;
 using MiniMe.Core.Models;
+using MiniMe.Core.Repositories;
 using MiniMe.Core.Utilities;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -45,10 +46,11 @@ namespace MiniMe
                 .AddJsonFile("appsettings.json", false)
                 .Build();
 
-            SwitchBoard.Initialize(
-                config.GetValue<string>("Host"),
-                config.GetOptions<MiniMePorts>("Port"));
-            
+            MiniMeService.Add<ISwitchBoardService>(
+                new SwitchBoard(
+                    config.GetValue<string>("Host"),
+                    config.GetOptions<MiniMePorts>("Port")));
+
             // Console Patch
             ConsoleUtility.HookExit(Terminate);
         }
@@ -79,6 +81,11 @@ namespace MiniMe
                     }
                     finally
                     {
+                        if (server is IDisposable disposable)
+                        {
+                            disposable.Dispose();
+                        }
+
                         serverEvent.Signal();
                     }
                 })
@@ -126,16 +133,18 @@ namespace MiniMe
 
         private static IEnumerable<ServerBase> CreateServers()
         {
-            var dnsEntry = Dns.GetHostEntry(SwitchBoard.Host);
+            var switchBoard = MiniMeService.Get<ISwitchBoardService>();
+            var dnsEntry = Dns.GetHostEntry(switchBoard.Host);
 
             if (dnsEntry.AddressList.Length == 0)
                 throw new Exception("Dns address not found.");
 
             var address = dnsEntry.AddressList[0];
 
-            yield return new AimeServer(new IPEndPoint(address, SwitchBoard.Ports.Aime));
-            yield return new AllNetServer(new IPEndPoint(address, SwitchBoard.Ports.AllNet));
-            yield return new ChunithmServer(new IPEndPoint(address, SwitchBoard.Ports.Chunithm));
+            yield return new AimeServer(new IPEndPoint(address, switchBoard.Ports.Aime));
+            yield return new AllNetServer(new IPEndPoint(address, switchBoard.Ports.AllNet));
+            yield return new ChunithmServer(new IPEndPoint(address, switchBoard.Ports.Chunithm));
+
             //yield return new BillingServer(new IPEndPoint(address, SwitchBoard.Ports.Billing));
         }
     }

@@ -20,10 +20,10 @@ namespace MiniMe.Aime
 
         private ByteBuffer _incompleteFrame;
 
-        internal AimeSession(AimeUserRepository repository, ILogger logger)
+        internal AimeSession(AimeContext context, ILogger logger)
         {
             _logger = logger;
-            _handler = new AimeHandler(this, repository, logger);
+            _handler = new AimeHandler(this, context, logger);
 
             AddReceiveTransform(new CryptoPacketTransform(_decryptor, true));
             AddSendTransform(new CryptoPacketTransform(_encryptor));

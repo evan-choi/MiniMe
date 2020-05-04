@@ -2,7 +2,7 @@
 {
     public class GetUserMapRequest
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         public bool IsAllMap { get; set; }
     }

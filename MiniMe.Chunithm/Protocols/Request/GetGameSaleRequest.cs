@@ -2,7 +2,7 @@
 {
     public class GetGameSaleRequest
     {
-        public string Type { get; set; }
+        public int Type { get; set; }
 
         public string IsAllScale { get; set; }
     }

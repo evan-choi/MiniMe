@@ -3,25 +3,17 @@ using Microsoft.AspNetCore.Http;
 
 namespace MiniMe.Core.AspNetCore.Middleswares
 {
-    public sealed class BodyBufferingMiddleware
+    public sealed class BodyBufferingMiddleware : MiddlewareBase
     {
-        private readonly RequestDelegate _next;
-
-        public BodyBufferingMiddleware(RequestDelegate next)
+        public BodyBufferingMiddleware(RequestDelegate next) : base(next)
         {
-            _next = next;
         }
 
-        public async Task Invoke(HttpContext context)
+        protected override Task BeforeInvoke(HttpContext context)
         {
-            try
-            {
-                context.Request.EnableBuffering();
-            }
-            finally
-            {
-                await _next(context);
-            }
+            context.Request.EnableBuffering();
+
+            return Task.CompletedTask;
         }
     }
 }

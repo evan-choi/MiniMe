@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MiniMe.AllNet.Protocols;
 using MiniMe.Core;
+using MiniMe.Core.Repositories;
 using MiniMe.Core.Utilities;
 
 namespace MiniMe.AllNet.Controllers
@@ -10,6 +11,13 @@ namespace MiniMe.AllNet.Controllers
     [Route("/sys/servlet")]
     public class ServletController : ControllerBase
     {
+        private readonly ISwitchBoardService _switchBoard;
+
+        public ServletController(ISwitchBoardService switchBoard)
+        {
+            _switchBoard = switchBoard ?? throw new ArgumentException(nameof(switchBoard));
+        }
+
         [HttpPost("PowerOn")]
         [Consumes("application/x-www-form-urlencoded")]
         public PowerOnResponse PowerOnFromForm(PowerOnRequest request)
@@ -26,8 +34,8 @@ namespace MiniMe.AllNet.Controllers
             return new PowerOnResponse
             {
                 Stat = 1,
-                Uri = SwitchBoard.GetStartupUri(request.GameId) ?? string.Empty,
-                Host = SwitchBoard.GetStartupHost(request.GameId) ?? string.Empty,
+                Uri = _switchBoard.GetStartupUri(request.GameId) ?? string.Empty,
+                Host = _switchBoard.GetStartupHost(request.GameId) ?? string.Empty,
                 PlaceId = "123",
                 Name = ProcessEnvironment.GetEnvironmentVariable("SHOW_NAME") ?? string.Empty,
                 Nickname = ProcessEnvironment.GetEnvironmentVariable("SHOW_NAME") ?? string.Empty,

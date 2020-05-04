@@ -1,9 +1,9 @@
-﻿namespace MiniMe.Chunithm.Protocols.Response
+﻿namespace MiniMe.Chunithm.Protocols
 {
     public class GetUserDataResponse
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
-        public UserData UserData { get; set; }
+        public UserProfile UserData { get; set; }
     }
 }

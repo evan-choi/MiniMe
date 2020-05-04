@@ -24,10 +24,14 @@ namespace MiniMe.Core.AspNetCore.Hosting
             services
                 .Configure<ConsoleLifetimeOptions>(o => o.SuppressStatusMessages = true)
                 .AddControllers(ConfigureControllers)
-                .AddNewtonsoftJson();
+                .AddNewtonsoftJson(ConfigureJson);
         }
 
         protected virtual void ConfigureControllers(MvcOptions options)
+        {
+        }
+
+        protected virtual void ConfigureJson(MvcNewtonsoftJsonOptions options)
         {
         }
     }

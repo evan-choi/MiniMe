@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Reflection;
-using System.Threading;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 

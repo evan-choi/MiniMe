@@ -1,6 +1,4 @@
-﻿Set-Location $PSScriptRoot
-
-function Verify-Index {
+﻿function Verify-Index {
     Param (
         [string]$Index,
         [int]$Min,
@@ -140,10 +138,14 @@ function Run-Migration($project) {
     }
 }
 
-$selectedProject = Select-Project
+while ($true) {
+    Set-Location $PSScriptRoot
 
-if ($selectedProject -eq $null) {
-    return
+    $selectedProject = Select-Project
+
+    if ($selectedProject -eq $null) {
+        return
+    }
+
+    Run-Migration $selectedProject
 }
-
-Run-Migration $selectedProject

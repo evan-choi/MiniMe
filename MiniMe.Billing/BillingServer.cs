@@ -9,7 +9,7 @@ using MiniMe.Core.Utilities;
 namespace MiniMe.Billing
 {
     [LoggerName("\u001b[38;5;4mBilling")]
-    public sealed class BillingServer : HostServerBase<DefaultHostStartup>
+    public sealed class BillingServer : HostServerBase<BillingStartup>
     {
         public BillingServer(IPEndPoint endPoint) : base(endPoint)
         {

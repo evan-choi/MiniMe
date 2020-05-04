@@ -1,12 +1,12 @@
-﻿namespace MiniMe.Chunithm.Protocols.Response
+﻿namespace MiniMe.Chunithm.Protocols
 {
     public class GetUserItemResponse
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         public int Length { get; set; }
 
-        public int NextIndex { get; set; }
+        public long NextIndex { get; set; }
 
         public int ItemKind { get; set; }
 

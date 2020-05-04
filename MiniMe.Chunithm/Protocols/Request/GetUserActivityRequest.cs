@@ -2,8 +2,8 @@
 {
     public class GetUserActivityRequest
     {
-        public string UserId { get; set; }
-        
+        public int UserId { get; set; }
+
         public int Kind { get; set; }
     }
 }

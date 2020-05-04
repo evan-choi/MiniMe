@@ -1,8 +1,8 @@
 ﻿namespace MiniMe.Chunithm.Protocols
 {
-    public class GetUserCharacterRequest
+    public class GetUserCharacterRequest : ILimitedPagination
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         public int NextIndex { get; set; }
 

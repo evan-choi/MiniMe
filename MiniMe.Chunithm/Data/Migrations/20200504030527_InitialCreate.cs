@@ -8,119 +8,7 @@ namespace MiniMe.Chunithm.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Activities",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Kind = table.Column<int>(nullable: false),
-                    ActivityId = table.Column<int>(nullable: false),
-                    SortNumber = table.Column<int>(nullable: false),
-                    Param1 = table.Column<int>(nullable: false),
-                    Param2 = table.Column<int>(nullable: false),
-                    Param3 = table.Column<int>(nullable: false),
-                    Param4 = table.Column<int>(nullable: false),
-                    ProfileId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Activities", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Characters",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CharacterId = table.Column<int>(nullable: false),
-                    PlayCount = table.Column<int>(nullable: false),
-                    Level = table.Column<int>(nullable: false),
-                    SkillId = table.Column<int>(nullable: false),
-                    FriendshipExp = table.Column<int>(nullable: false),
-                    IsValid = table.Column<bool>(nullable: false),
-                    IsNewMark = table.Column<bool>(nullable: false),
-                    Param1 = table.Column<int>(nullable: false),
-                    Param2 = table.Column<int>(nullable: false),
-                    ProfileId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Characters", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CourseId = table.Column<int>(nullable: false),
-                    ClassId = table.Column<int>(nullable: false),
-                    PlayCount = table.Column<int>(nullable: false),
-                    ScoreMax = table.Column<int>(nullable: false),
-                    IsFullCombo = table.Column<bool>(nullable: false),
-                    IsAllJustice = table.Column<bool>(nullable: false),
-                    IsSuccess = table.Column<bool>(nullable: false),
-                    ScoreRank = table.Column<int>(nullable: false),
-                    EventId = table.Column<int>(nullable: false),
-                    LastPlayDate = table.Column<DateTimeOffset>(nullable: false),
-                    Param1 = table.Column<int>(nullable: false),
-                    Param2 = table.Column<int>(nullable: false),
-                    Param3 = table.Column<int>(nullable: false),
-                    Param4 = table.Column<int>(nullable: false),
-                    IsClear = table.Column<bool>(nullable: false),
-                    ProfileId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DataExs",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CompatibleCmVersion = table.Column<string>(nullable: true),
-                    Medal = table.Column<int>(nullable: false),
-                    MapIconId = table.Column<int>(nullable: false),
-                    VoiceId = table.Column<int>(nullable: false),
-                    Ext1 = table.Column<int>(nullable: false),
-                    Ext2 = table.Column<int>(nullable: false),
-                    Ext3 = table.Column<int>(nullable: false),
-                    Ext4 = table.Column<int>(nullable: false),
-                    Ext5 = table.Column<int>(nullable: false),
-                    Ext6 = table.Column<int>(nullable: false),
-                    Ext7 = table.Column<int>(nullable: false),
-                    Ext8 = table.Column<int>(nullable: false),
-                    Ext9 = table.Column<int>(nullable: false),
-                    Ext10 = table.Column<int>(nullable: false),
-                    Ext11 = table.Column<int>(nullable: false),
-                    Ext12 = table.Column<int>(nullable: false),
-                    Ext13 = table.Column<int>(nullable: false),
-                    Ext14 = table.Column<int>(nullable: false),
-                    Ext15 = table.Column<int>(nullable: false),
-                    Ext16 = table.Column<int>(nullable: false),
-                    Ext17 = table.Column<int>(nullable: false),
-                    Ext18 = table.Column<int>(nullable: false),
-                    Ext19 = table.Column<int>(nullable: false),
-                    Ext20 = table.Column<int>(nullable: false),
-                    ExtStr1 = table.Column<string>(nullable: true),
-                    ExtStr2 = table.Column<string>(nullable: true),
-                    ExtStr3 = table.Column<string>(nullable: true),
-                    ExtStr4 = table.Column<string>(nullable: true),
-                    ExtStr5 = table.Column<string>(nullable: true),
-                    ExtLong1 = table.Column<long>(nullable: false),
-                    ExtLong2 = table.Column<long>(nullable: false),
-                    ExtLong3 = table.Column<long>(nullable: false),
-                    ExtLong4 = table.Column<long>(nullable: false),
-                    ExtLong5 = table.Column<long>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DataExs", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Datas",
+                name: "Profiles",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -172,23 +60,21 @@ namespace MiniMe.Chunithm.Data.Migrations
                     LastRegionName = table.Column<string>(nullable: true),
                     LastAllNetId = table.Column<string>(nullable: true),
                     LastClientId = table.Column<string>(nullable: true),
-                    PlayerId = table.Column<Guid>(nullable: false)
+                    AimeId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Datas", x => x.Id);
+                    table.PrimaryKey("PK_Profiles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DuelLists",
+                name: "UserActivity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    DuelId = table.Column<int>(nullable: false),
-                    Progress = table.Column<int>(nullable: false),
-                    Point = table.Column<int>(nullable: false),
-                    IsClear = table.Column<bool>(nullable: false),
-                    LastPlayDate = table.Column<DateTimeOffset>(nullable: false),
+                    Kind = table.Column<int>(nullable: false),
+                    ActivityId = table.Column<int>(nullable: false),
+                    SortNumber = table.Column<int>(nullable: false),
                     Param1 = table.Column<int>(nullable: false),
                     Param2 = table.Column<int>(nullable: false),
                     Param3 = table.Column<int>(nullable: false),
@@ -197,14 +83,84 @@ namespace MiniMe.Chunithm.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DuelLists", x => x.Id);
+                    table.PrimaryKey("PK_UserActivity", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserActivity_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameOptionExs",
+                name: "UserCharacter",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CharacterId = table.Column<int>(nullable: false),
+                    PlayCount = table.Column<int>(nullable: false),
+                    Level = table.Column<int>(nullable: false),
+                    SkillId = table.Column<int>(nullable: false),
+                    FriendshipExp = table.Column<int>(nullable: false),
+                    IsValid = table.Column<bool>(nullable: false),
+                    IsNewMark = table.Column<bool>(nullable: false),
+                    Param1 = table.Column<int>(nullable: false),
+                    Param2 = table.Column<int>(nullable: false),
+                    ProfileId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCharacter", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserCharacter_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserCourse",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CourseId = table.Column<int>(nullable: false),
+                    ClassId = table.Column<int>(nullable: false),
+                    PlayCount = table.Column<int>(nullable: false),
+                    ScoreMax = table.Column<int>(nullable: false),
+                    IsFullCombo = table.Column<bool>(nullable: false),
+                    IsAllJustice = table.Column<bool>(nullable: false),
+                    IsSuccess = table.Column<bool>(nullable: false),
+                    ScoreRank = table.Column<int>(nullable: false),
+                    EventId = table.Column<int>(nullable: false),
+                    LastPlayDate = table.Column<DateTimeOffset>(nullable: false),
+                    Param1 = table.Column<int>(nullable: false),
+                    Param2 = table.Column<int>(nullable: false),
+                    Param3 = table.Column<int>(nullable: false),
+                    Param4 = table.Column<int>(nullable: false),
+                    IsClear = table.Column<bool>(nullable: false),
+                    ProfileId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCourse", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserCourse_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserDataEx",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CompatibleCmVersion = table.Column<string>(nullable: true),
+                    Medal = table.Column<int>(nullable: false),
+                    MapIconId = table.Column<int>(nullable: false),
+                    VoiceId = table.Column<int>(nullable: false),
                     Ext1 = table.Column<int>(nullable: false),
                     Ext2 = table.Column<int>(nullable: false),
                     Ext3 = table.Column<int>(nullable: false),
@@ -224,15 +180,58 @@ namespace MiniMe.Chunithm.Data.Migrations
                     Ext17 = table.Column<int>(nullable: false),
                     Ext18 = table.Column<int>(nullable: false),
                     Ext19 = table.Column<int>(nullable: false),
-                    Ext20 = table.Column<int>(nullable: false)
+                    Ext20 = table.Column<int>(nullable: false),
+                    ExtStr1 = table.Column<string>(nullable: true),
+                    ExtStr2 = table.Column<string>(nullable: true),
+                    ExtStr3 = table.Column<string>(nullable: true),
+                    ExtStr4 = table.Column<string>(nullable: true),
+                    ExtStr5 = table.Column<string>(nullable: true),
+                    ExtLong1 = table.Column<long>(nullable: false),
+                    ExtLong2 = table.Column<long>(nullable: false),
+                    ExtLong3 = table.Column<long>(nullable: false),
+                    ExtLong4 = table.Column<long>(nullable: false),
+                    ExtLong5 = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameOptionExs", x => x.Id);
+                    table.PrimaryKey("PK_UserDataEx", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserDataEx_Profiles_Id",
+                        column: x => x.Id,
+                        principalTable: "Profiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameOptions",
+                name: "UserDuelList",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    DuelId = table.Column<int>(nullable: false),
+                    Progress = table.Column<int>(nullable: false),
+                    Point = table.Column<int>(nullable: false),
+                    IsClear = table.Column<bool>(nullable: false),
+                    LastPlayDate = table.Column<DateTimeOffset>(nullable: false),
+                    Param1 = table.Column<int>(nullable: false),
+                    Param2 = table.Column<int>(nullable: false),
+                    Param3 = table.Column<int>(nullable: false),
+                    Param4 = table.Column<int>(nullable: false),
+                    ProfileId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserDuelList", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserDuelList_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserGameOption",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -261,11 +260,54 @@ namespace MiniMe.Chunithm.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameOptions", x => x.Id);
+                    table.PrimaryKey("PK_UserGameOption", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserGameOption_Profiles_Id",
+                        column: x => x.Id,
+                        principalTable: "Profiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Items",
+                name: "UserGameOptionEx",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Ext1 = table.Column<int>(nullable: false),
+                    Ext2 = table.Column<int>(nullable: false),
+                    Ext3 = table.Column<int>(nullable: false),
+                    Ext4 = table.Column<int>(nullable: false),
+                    Ext5 = table.Column<int>(nullable: false),
+                    Ext6 = table.Column<int>(nullable: false),
+                    Ext7 = table.Column<int>(nullable: false),
+                    Ext8 = table.Column<int>(nullable: false),
+                    Ext9 = table.Column<int>(nullable: false),
+                    Ext10 = table.Column<int>(nullable: false),
+                    Ext11 = table.Column<int>(nullable: false),
+                    Ext12 = table.Column<int>(nullable: false),
+                    Ext13 = table.Column<int>(nullable: false),
+                    Ext14 = table.Column<int>(nullable: false),
+                    Ext15 = table.Column<int>(nullable: false),
+                    Ext16 = table.Column<int>(nullable: false),
+                    Ext17 = table.Column<int>(nullable: false),
+                    Ext18 = table.Column<int>(nullable: false),
+                    Ext19 = table.Column<int>(nullable: false),
+                    Ext20 = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserGameOptionEx", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserGameOptionEx_Profiles_Id",
+                        column: x => x.Id,
+                        principalTable: "Profiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserItem",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -277,11 +319,17 @@ namespace MiniMe.Chunithm.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.PrimaryKey("PK_UserItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserItem_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Maps",
+                name: "UserMap",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -298,11 +346,17 @@ namespace MiniMe.Chunithm.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Maps", x => x.Id);
+                    table.PrimaryKey("PK_UserMap", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserMap_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Musics",
+                name: "UserMusic",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -326,11 +380,17 @@ namespace MiniMe.Chunithm.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Musics", x => x.Id);
+                    table.PrimaryKey("PK_UserMusic", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserMusic_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Paylogs",
+                name: "UserPlayLog",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -388,47 +448,118 @@ namespace MiniMe.Chunithm.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Paylogs", x => x.Id);
+                    table.PrimaryKey("PK_UserPlayLog", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserPlayLog_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserActivity_ProfileId_Kind_ActivityId",
+                table: "UserActivity",
+                columns: new[] { "ProfileId", "Kind", "ActivityId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCharacter_ProfileId_CharacterId",
+                table: "UserCharacter",
+                columns: new[] { "ProfileId", "CharacterId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCourse_ProfileId_CourseId",
+                table: "UserCourse",
+                columns: new[] { "ProfileId", "CourseId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserDataEx_Id",
+                table: "UserDataEx",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserDuelList_ProfileId_DuelId",
+                table: "UserDuelList",
+                columns: new[] { "ProfileId", "DuelId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserGameOption_Id",
+                table: "UserGameOption",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserGameOptionEx_Id",
+                table: "UserGameOptionEx",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserItem_ProfileId_ItemId_ItemKind",
+                table: "UserItem",
+                columns: new[] { "ProfileId", "ItemId", "ItemKind" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserMap_ProfileId_MapId",
+                table: "UserMap",
+                columns: new[] { "ProfileId", "MapId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserMusic_ProfileId_MusicId_Level",
+                table: "UserMusic",
+                columns: new[] { "ProfileId", "MusicId", "Level" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPlayLog_ProfileId",
+                table: "UserPlayLog",
+                column: "ProfileId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Activities");
+                name: "UserActivity");
 
             migrationBuilder.DropTable(
-                name: "Characters");
+                name: "UserCharacter");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "UserCourse");
 
             migrationBuilder.DropTable(
-                name: "DataExs");
+                name: "UserDataEx");
 
             migrationBuilder.DropTable(
-                name: "Datas");
+                name: "UserDuelList");
 
             migrationBuilder.DropTable(
-                name: "DuelLists");
+                name: "UserGameOption");
 
             migrationBuilder.DropTable(
-                name: "GameOptionExs");
+                name: "UserGameOptionEx");
 
             migrationBuilder.DropTable(
-                name: "GameOptions");
+                name: "UserItem");
 
             migrationBuilder.DropTable(
-                name: "Items");
+                name: "UserMap");
 
             migrationBuilder.DropTable(
-                name: "Maps");
+                name: "UserMusic");
 
             migrationBuilder.DropTable(
-                name: "Musics");
+                name: "UserPlayLog");
 
             migrationBuilder.DropTable(
-                name: "Paylogs");
+                name: "Profiles");
         }
     }
 }

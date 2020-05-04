@@ -2,13 +2,13 @@
 {
     public class UpsertUserAllRequest
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         public Payload UpsertUserAll { get; set; }
 
         public class Payload
         {
-            public UserData[] UserData { get; set; }
+            public UserProfile[] UserData { get; set; }
 
             public UserGameOption[] UserGameOption { get; set; }
 

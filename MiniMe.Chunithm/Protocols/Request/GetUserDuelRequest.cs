@@ -2,7 +2,7 @@
 {
     public class GetUserDuelRequest
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         public int DuelId { get; set; }
 

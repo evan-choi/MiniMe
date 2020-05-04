@@ -2,6 +2,6 @@
 {
     public class GetUserRecentRatingRequest
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

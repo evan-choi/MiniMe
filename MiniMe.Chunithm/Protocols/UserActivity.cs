@@ -1,9 +1,12 @@
-﻿namespace MiniMe.Chunithm.Protocols
+﻿using Newtonsoft.Json;
+
+namespace MiniMe.Chunithm.Protocols
 {
     public class UserActivity
     {
         public virtual int Kind { get; set; }
 
+        [JsonProperty("id")]
         public virtual int ActivityId { get; set; }
 
         public virtual int SortNumber { get; set; }

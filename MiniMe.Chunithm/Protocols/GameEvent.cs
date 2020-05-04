@@ -8,8 +8,8 @@ namespace MiniMe.Chunithm.Protocols
 
         public int Id { get; set; }
 
-        public DateTimeOffset StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
-        public DateTimeOffset EndDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

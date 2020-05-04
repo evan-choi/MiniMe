@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MiniMe.Core.Models;
+using MiniMe.Core.Repositories;
 
 namespace MiniMe.Core
 {
-    public static class SwitchBoard
+    public class SwitchBoard : ISwitchBoardService
     {
-        public static string Host { get; private set; }
+        public string Host { get; }
 
-        public static MiniMePorts Ports { get; private set; }
+        public MiniMePorts Ports { get; }
 
-        private static bool _initialized;
-        private static Dictionary<string, string> _startupHosts;
-        private static Dictionary<string, string> _startupUris;
+        private readonly Dictionary<string, string> _startupHosts;
+        private readonly Dictionary<string, string> _startupUris;
 
-        public static void Initialize(string host, MiniMePorts ports)
+        public SwitchBoard(string host, MiniMePorts ports)
         {
-            if (_initialized)
-                throw new Exception("Already initialized.");
-
-            _initialized = true;
-
             Host = host;
             Ports = ports;
 
@@ -36,7 +30,7 @@ namespace MiniMe.Core
             };
         }
 
-        public static string GetStartupHost(string gameId)
+        public string GetStartupHost(string gameId)
         {
             if (_startupHosts.TryGetValue(gameId, out var result))
                 return result;
@@ -44,7 +38,7 @@ namespace MiniMe.Core
             return null;
         }
 
-        public static string GetStartupUri(string gameId)
+        public string GetStartupUri(string gameId)
         {
             if (_startupUris.TryGetValue(gameId, out var result))
                 return result;

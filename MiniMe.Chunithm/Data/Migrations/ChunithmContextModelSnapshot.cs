@@ -19,7 +19,6 @@ namespace MiniMe.Chunithm.Data.Migrations
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserActivity", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ActivityId")
@@ -48,13 +47,15 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Activities");
+                    b.HasIndex("ProfileId", "Kind", "ActivityId")
+                        .IsUnique();
+
+                    b.ToTable("UserActivity");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserCharacter", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("CharacterId")
@@ -89,13 +90,15 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Characters");
+                    b.HasIndex("ProfileId", "CharacterId")
+                        .IsUnique();
+
+                    b.ToTable("UserCharacter");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserCourse", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ClassId")
@@ -148,171 +151,15 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Courses");
-                });
+                    b.HasIndex("ProfileId", "CourseId")
+                        .IsUnique();
 
-            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserData", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("AcceptResCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AccessCode")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("CharacterId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset>("EventWatchedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Exp")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("FirstDataVersion")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FirstGameId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset>("FirstPlayDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FirstRomVersion")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("FirstTutorialCancelNum")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("FrameId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("FriendCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("HighestRating")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsMaimai")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsWebJoin")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("LastAllNetId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastClientId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastDataVersion")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastGameId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("LastPlaceId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("LastPlaceName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset>("LastPlayDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastRegionId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastRegionName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastRomVersion")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MasterTutorialCancelNum")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MultiPlayCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MultiWinCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NameplateId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PlayCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PlayedTutorialBit")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("PlayerId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("PlayerRating")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Point")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ReincarnationNum")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("RequestResCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SuccessResCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("TotalAdvancedHighScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("TotalBasicHighScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("TotalExpertHighScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("TotalHiScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TotalMapNum")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("TotalMasterHighScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("TotalPoint")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TotalRepertoireCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TrophyId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset>("WebLimitDate")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Datas");
+                    b.ToTable("UserCourse");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserDataEx", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CompatibleCmVersion")
@@ -419,13 +266,15 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DataExs");
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("UserDataEx");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserDuelList", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DuelId")
@@ -460,13 +309,15 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DuelLists");
+                    b.HasIndex("ProfileId", "DuelId")
+                        .IsUnique();
+
+                    b.ToTable("UserDuelList");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserGameOption", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("BgInfo")
@@ -537,13 +388,15 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GameOptions");
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("UserGameOption");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserGameOptionEx", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Ext1")
@@ -608,7 +461,10 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GameOptionExs");
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("UserGameOptionEx");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserItem", b =>
@@ -634,13 +490,15 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.HasIndex("ProfileId", "ItemId", "ItemKind")
+                        .IsUnique();
+
+                    b.ToTable("UserItem");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserMap", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("AreaId")
@@ -675,13 +533,15 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Maps");
+                    b.HasIndex("ProfileId", "MapId")
+                        .IsUnique();
+
+                    b.ToTable("UserMap");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserMusic", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("FullChain")
@@ -737,13 +597,15 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Musics");
+                    b.HasIndex("ProfileId", "MusicId", "Level")
+                        .IsUnique();
+
+                    b.ToTable("UserMusic");
                 });
 
             modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserPlayLog", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("CharacterId")
@@ -901,7 +763,265 @@ namespace MiniMe.Chunithm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Paylogs");
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("UserPlayLog");
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("AcceptResCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AccessCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("AimeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset>("EventWatchedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Exp")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FirstDataVersion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstGameId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("FirstPlayDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstRomVersion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FirstTutorialCancelNum")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FrameId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FriendCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HighestRating")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsMaimai")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsWebJoin")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LastAllNetId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastClientId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastDataVersion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastGameId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LastPlaceId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LastPlaceName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("LastPlayDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastRegionId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastRegionName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastRomVersion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MasterTutorialCancelNum")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MultiPlayCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MultiWinCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("NameplateId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PlayCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PlayedTutorialBit")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PlayerRating")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Point")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ReincarnationNum")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RequestResCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SuccessResCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("TotalAdvancedHighScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("TotalBasicHighScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("TotalExpertHighScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("TotalHiScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TotalMapNum")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("TotalMasterHighScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("TotalPoint")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TotalRepertoireCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TrophyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("WebLimitDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Profiles");
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserActivity", b =>
+                {
+                    b.HasOne("MiniMe.Chunithm.Data.Models.UserProfile", "Profile")
+                        .WithMany("Activities")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserCharacter", b =>
+                {
+                    b.HasOne("MiniMe.Chunithm.Data.Models.UserProfile", "Profile")
+                        .WithMany("Characters")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserCourse", b =>
+                {
+                    b.HasOne("MiniMe.Chunithm.Data.Models.UserProfile", "Profile")
+                        .WithMany("Courses")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserDataEx", b =>
+                {
+                    b.HasOne("MiniMe.Chunithm.Data.Models.UserProfile", "Profile")
+                        .WithOne("DataEx")
+                        .HasForeignKey("MiniMe.Chunithm.Data.Models.UserDataEx", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserDuelList", b =>
+                {
+                    b.HasOne("MiniMe.Chunithm.Data.Models.UserProfile", "Profile")
+                        .WithMany("DuelLists")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserGameOption", b =>
+                {
+                    b.HasOne("MiniMe.Chunithm.Data.Models.UserProfile", "Profile")
+                        .WithOne("GameOption")
+                        .HasForeignKey("MiniMe.Chunithm.Data.Models.UserGameOption", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserGameOptionEx", b =>
+                {
+                    b.HasOne("MiniMe.Chunithm.Data.Models.UserProfile", "Profile")
+                        .WithOne("GameOptionEx")
+                        .HasForeignKey("MiniMe.Chunithm.Data.Models.UserGameOptionEx", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserItem", b =>
+                {
+                    b.HasOne("MiniMe.Chunithm.Data.Models.UserProfile", "Profile")
+                        .WithMany("Items")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserMap", b =>
+                {
+                    b.HasOne("MiniMe.Chunithm.Data.Models.UserProfile", "Profile")
+                        .WithMany("Maps")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserMusic", b =>
+                {
+                    b.HasOne("MiniMe.Chunithm.Data.Models.UserProfile", "Profile")
+                        .WithMany("Musics")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MiniMe.Chunithm.Data.Models.UserPlayLog", b =>
+                {
+                    b.HasOne("MiniMe.Chunithm.Data.Models.UserProfile", "Profile")
+                        .WithMany("PlayLogs")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

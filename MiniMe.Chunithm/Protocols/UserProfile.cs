@@ -2,7 +2,7 @@
 
 namespace MiniMe.Chunithm.Protocols
 {
-    public class UserData
+    public class UserProfile
     {
         // NFC LUID
         public virtual string AccessCode { get; set; }

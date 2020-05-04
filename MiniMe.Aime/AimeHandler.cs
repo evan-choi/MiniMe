@@ -10,14 +10,14 @@ namespace MiniMe.Aime
     internal sealed class AimeHandler
     {
         private readonly AimeSession _session;
-        private readonly AimeUserRepository _repository;
+        private readonly AimeContext _context;
         private readonly ILogger _logger;
 
-        public AimeHandler(AimeSession session, AimeUserRepository repository, ILogger logger)
+        public AimeHandler(AimeSession session, AimeContext context, ILogger logger)
         {
             _logger = logger;
             _session = session;
-            _repository = repository;
+            _context = context;
         }
 
         public AimeResponse Dispatch(AimeRequest request)
@@ -80,7 +80,7 @@ namespace MiniMe.Aime
 
         private LookupResponse Lookup(LookupRequest request)
         {
-            var user = _repository.Find(u => u.AccessCode == request.AccessCode);
+            var user = _context.Find(u => u.AccessCode == request.AccessCode);
 
             return Ok(new LookupResponse
             {
@@ -91,7 +91,7 @@ namespace MiniMe.Aime
 
         private Lookup2Response Lookup2(Lookup2Request request)
         {
-            var user = _repository.Find(u => u.AccessCode == request.AccessCode);
+            var user = _context.Find(u => u.AccessCode == request.AccessCode);
 
             return Ok(new Lookup2Response
             {
@@ -111,7 +111,7 @@ namespace MiniMe.Aime
                 AccessAt = DateTimeOffset.Now
             };
 
-            _repository.Add(user);
+            _context.Add(user);
 
             return Ok(new RegisterResponse
             {
