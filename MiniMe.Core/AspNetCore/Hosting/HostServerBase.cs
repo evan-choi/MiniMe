@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
@@ -49,7 +48,11 @@ namespace MiniMe.Core.AspNetCore.Hosting
         protected virtual void ConfigureWebHostDefaults(IWebHostBuilder webBuilder)
         {
             webBuilder
-                .UseKestrel(ConfigureKestrel)
+                .UseKestrel(o =>
+                {
+                    o.AddServerHeader = false;
+                    ConfigureKestrel(o);
+                })
                 .UseStartup<TStartup>();
         }
 

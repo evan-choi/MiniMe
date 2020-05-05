@@ -11,12 +11,5 @@ namespace MiniMe.AllNet
         public AllNetServer(IPEndPoint endPoint) : base(endPoint)
         {
         }
-
-        protected override void ConfigureWebHostDefaults(IWebHostBuilder webBuilder)
-        {
-            webBuilder
-                .UseKestrel(o => o.Listen(EndPoint))
-                .UseStartup<AllNetStartup>();
-        }
     }
 }

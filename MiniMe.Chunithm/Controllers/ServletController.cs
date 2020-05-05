@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MiniMe.Chunithm.Comparers;
 using MiniMe.Chunithm.Data;
 using MiniMe.Chunithm.Data.Models;
 using MiniMe.Chunithm.Protocols;
 using MiniMe.Core.Mapper;
 using MiniMe.Core.Repositories;
+using Newtonsoft.Json;
 using Serilog;
 using DbUserGameOption = MiniMe.Chunithm.Data.Models.UserGameOption;
 using DbUserGameOptionEx = MiniMe.Chunithm.Data.Models.UserGameOptionEx;
@@ -42,43 +46,45 @@ namespace MiniMe.Chunithm.Controllers
     {
         private readonly ChunithmContext _context;
         private readonly IAimeService _aimeService;
+        private readonly IJsonHelper _jsonHelper;
 
-        public ServletController(ChunithmContext context, IAimeService aimeService)
+        public ServletController(ChunithmContext context, IAimeService aimeService, IJsonHelper jsonHelper)
         {
+            _jsonHelper = jsonHelper;
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _aimeService = aimeService ?? throw new ArgumentNullException(nameof(aimeService));
         }
 
         [HttpPost("GameLoginApi")]
-        public GameLoginResponse GameLogin( /* GameLoginRequest request */)
+        public ActionResult<GameLoginResponse> GameLogin( /* GameLoginRequest request */)
         {
-            return new GameLoginResponse
+            return Ok(new GameLoginResponse
             {
                 ReturnCode = 1
-            };
+            });
         }
 
         [HttpPost("GameLogoutApi")]
-        public GameLogoutResponse GameLogout( /* GameLogoutRequest request */)
+        public ActionResult<GameLogoutResponse> GameLogout( /* GameLogoutRequest request */)
         {
-            return new GameLogoutResponse
+            return Ok(new GameLogoutResponse
             {
                 ReturnCode = 1
-            };
+            });
         }
 
         [HttpPost("GetGameChargeApi")]
-        public GetGameChargeResponse GetGameCharge( /* GetGameChargeRequest request */)
+        public ActionResult<GetGameChargeResponse> GetGameCharge( /* GetGameChargeRequest request */)
         {
-            return new GetGameChargeResponse
+            return Ok(new GetGameChargeResponse
             {
                 Length = 0,
                 GameChargeList = Array.Empty<GameChargeItem>()
-            };
+            });
         }
 
         [HttpPost("GetGameEventApi")]
-        public GetGameEventResponse GetGameEvent(GetGameEventRequest request)
+        public ActionResult<GetGameEventResponse> GetGameEvent(GetGameEventRequest request)
         {
             var startDate = new DateTime(2017, 12, 5, 7, 0, 0);
             var endDate = new DateTime(2099, 12, 31, 0, 0, 0);
@@ -93,69 +99,69 @@ namespace MiniMe.Chunithm.Controllers
                 })
                 .ToArray();
 
-            return new GetGameEventResponse
+            return Ok(new GetGameEventResponse
             {
                 Type = request.Type,
                 Length = events.Length,
                 GameEventList = events
-            };
+            });
         }
 
         [HttpPost("GetGameIdlistApi")]
-        public GetGameIdlistResponse GetGameIdlist(GetGameIdlistRequest request)
+        public ActionResult<GetGameIdlistResponse> GetGameIdlist(GetGameIdlistRequest request)
         {
-            return new GetGameIdlistResponse
+            return Ok(new GetGameIdlistResponse
             {
                 Type = request.Type,
                 Length = 0,
                 GameIdlistList = Array.Empty<object>()
-            };
+            });
         }
 
         [HttpPost("GetGameMessageApi")]
-        public GetGameMessageResponse GetGameMessage(GetGameMessageRequest request)
+        public ActionResult<GetGameMessageResponse> GetGameMessage(GetGameMessageRequest request)
         {
-            return new GetGameMessageResponse
+            return Ok(new GetGameMessageResponse
             {
                 Type = request.Type,
                 Length = 0,
                 GameMessageList = Array.Empty<GameMessage>()
-            };
+            });
         }
 
         [HttpPost("GetGameRankingApi")]
-        public GetGameRankingResponse GetGameRanking(GetGameRankingRequest request)
+        public ActionResult<GetGameRankingResponse> GetGameRanking(GetGameRankingRequest request)
         {
-            return new GetGameRankingResponse
+            return Ok(new GetGameRankingResponse
             {
                 Type = request.Type,
                 GameRankingList = Array.Empty<GameRanking>()
-            };
+            });
         }
 
         [HttpPost("GetGameSaleApi")]
-        public GetGameSaleResponse GetGameSale(GetGameSaleRequest request)
+        public ActionResult<GetGameSaleResponse> GetGameSale(GetGameSaleRequest request)
         {
-            return new GetGameSaleResponse
+            return Ok(new GetGameSaleResponse
             {
                 Type = request.Type,
                 Length = 0,
                 GameSaleList = Array.Empty<GameSale>()
-            };
+            });
         }
 
         [HttpPost("GetGameSettingApi")]
-        public GetGameSettingResponse GetGameSetting( /* GetGameSettingRequest request */)
+        public ActionResult<GetGameSettingResponse> GetGameSetting( /* GetGameSettingRequest request */)
         {
-            return new GetGameSettingResponse
+            return Ok(new GetGameSettingResponse
             {
                 GameSetting = new GetGameSettingResponse.Payload
                 {
                     DataVersion = "1",
                     IsMaintenance = false,
                     RequestInterval = 10,
-                    RebootStartTime = DateTime.Now.AddHours(-3),
-                    RebootEndTime = DateTime.Now.AddHours(-2),
+                    RebootStartTime = DateTime.Now.AddHours(-5),
+                    RebootEndTime = DateTime.Now.AddHours(-4),
                     IsBackgroundDistribute = false,
                     MaxCountCharacter = 300,
                     MaxCountItem = 300,
@@ -163,11 +169,11 @@ namespace MiniMe.Chunithm.Controllers
                 },
                 IsDumpUpload = false,
                 IsAou = false
-            };
+            });
         }
 
         [HttpPost("GetUserActivityApi")]
-        public GetUserActivityResponse GetUserActivity(GetUserActivityRequest request)
+        public ActionResult<GetUserActivityResponse> GetUserActivity(GetUserActivityRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
             var profile = _context.FindProfileWithData(aimeId, p => p.Activities);
@@ -182,17 +188,17 @@ namespace MiniMe.Chunithm.Controllers
                     .ToArray();
             }
 
-            return new GetUserActivityResponse
+            return Ok(new GetUserActivityResponse
             {
                 UserId = request.UserId,
                 Kind = request.Kind,
                 Length = activities.Length,
                 UserActivityList = activities
-            };
+            });
         }
 
         [HttpPost("GetUserCharacterApi")]
-        public GetUserCharacterResponse GetUserCharacter(GetUserCharacterRequest request)
+        public ActionResult<GetUserCharacterResponse> GetUserCharacter(GetUserCharacterRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
             var profile = _context.FindProfileWithData(aimeId, p => p.Characters);
@@ -208,28 +214,28 @@ namespace MiniMe.Chunithm.Controllers
                     .ToArray();
             }
 
-            return new GetUserCharacterResponse
+            return Ok(new GetUserCharacterResponse
             {
                 UserId = request.UserId,
                 NextIndex = ChunithmUtility.NextPagination(characters, request),
                 Length = characters.Length,
                 UserCharacterList = characters
-            };
+            });
         }
 
         [HttpPost("GetUserChargeApi")]
-        public GetUserChargeResponse GetUserCharge(GetUserChargeRequest request)
+        public ActionResult<GetUserChargeResponse> GetUserCharge(GetUserChargeRequest request)
         {
-            return new GetUserChargeResponse
+            return Ok(new GetUserChargeResponse
             {
                 UserId = request.UserId,
                 Length = 0,
                 UserChargeList = Array.Empty<object>()
-            };
+            });
         }
 
         [HttpPost("GetUserCourseApi")]
-        public GetUserCourseResponse GetUserCourse(GetUserCourseRequest request)
+        public ActionResult<GetUserCourseResponse> GetUserCourse(GetUserCourseRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
             var profile = _context.FindProfileWithData(aimeId, p => p.Courses);
@@ -245,43 +251,43 @@ namespace MiniMe.Chunithm.Controllers
                     .ToArray();
             }
 
-            return new GetUserCourseResponse
+            return Ok(new GetUserCourseResponse
             {
                 UserId = request.UserId,
                 NextIndex = ChunithmUtility.NextPagination(courses, request),
                 Length = courses.Length,
                 UserCourseList = courses
-            };
+            });
         }
 
         [HttpPost("GetUserDataApi")]
-        public GetUserDataResponse GetUserData(GetUserDataRequest request)
+        public ActionResult<GetUserDataResponse> GetUserData(GetUserDataRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
             var profile = _context.FindProfileWithAllData(aimeId);
 
-            return new GetUserDataResponse
+            return Ok(new GetUserDataResponse
             {
                 UserId = request.UserId,
                 UserData = ObjectMapper.Map<UserProfile>(profile)
-            };
+            });
         }
 
         [HttpPost("GetUserDataExApi")]
-        public GetUserDataExResponse GetUserDataEx(GetUserDataExRequest request)
+        public ActionResult<GetUserDataExResponse> GetUserDataEx(GetUserDataExRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
             var profile = _context.FindProfileWithData(aimeId, p => p.DataEx);
 
-            return new GetUserDataExResponse
+            return Ok(new GetUserDataExResponse
             {
                 UserId = request.UserId,
                 UserDataEx = ObjectMapper.Map<UserDataEx>(profile?.DataEx)
-            };
+            });
         }
 
         [HttpPost("GetUserDuelApi")]
-        public GetUserDuelResponse GetUserDuel(GetUserDuelRequest request)
+        public ActionResult<GetUserDuelResponse> GetUserDuel(GetUserDuelRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
             var profile = _context.FindProfileWithData(aimeId, p => p.DuelLists);
@@ -295,16 +301,16 @@ namespace MiniMe.Chunithm.Controllers
                     .ToArray();
             }
 
-            return new GetUserDuelResponse
+            return Ok(new GetUserDuelResponse
             {
                 UserId = request.UserId,
                 Length = duelLists.Length,
                 UserDuelList = duelLists
-            };
+            });
         }
 
         [HttpPost("GetUserItemApi")]
-        public GetUserItemResponse GetUserItem(GetUserItemRequest request)
+        public ActionResult<GetUserItemResponse> GetUserItem(GetUserItemRequest request)
         {
             // Split the "nextIndex" parameter
 
@@ -339,18 +345,18 @@ namespace MiniMe.Chunithm.Controllers
 
             long xout = itemKind * itemKindMul + nextIndex + items.Length;
 
-            return new GetUserItemResponse
+            return Ok(new GetUserItemResponse
             {
                 UserId = request.UserId,
                 Length = items.Length,
                 NextIndex = items.Length < request.MaxCount ? -1 : xout,
                 ItemKind = itemKind,
                 UserItemList = items
-            };
+            });
         }
 
         [HttpPost("GetUserMapApi")]
-        public GetUserMapResponse GetUserMap(GetUserMapRequest request)
+        public ActionResult<GetUserMapResponse> GetUserMap(GetUserMapRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
             var profile = _context.FindProfileWithData(aimeId, p => p.Maps);
@@ -364,16 +370,16 @@ namespace MiniMe.Chunithm.Controllers
                     .ToArray();
             }
 
-            return new GetUserMapResponse
+            return Ok(new GetUserMapResponse
             {
                 UserId = request.UserId,
                 Length = maps.Length,
                 UserMapList = maps
-            };
+            });
         }
 
         [HttpPost("GetUserMusicApi")]
-        public GetUserMusicResponse GetUserMusic(GetUserMusicRequest request)
+        public ActionResult<GetUserMusicResponse> GetUserMusic(GetUserMusicRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
             var profile = _context.FindProfileWithData(aimeId, p => p.Musics);
@@ -390,43 +396,43 @@ namespace MiniMe.Chunithm.Controllers
                     .ToArray();
             }
 
-            return new GetUserMusicResponse
+            return Ok(new GetUserMusicResponse
             {
                 UserId = request.UserId,
                 NextIndex = ChunithmUtility.NextPagination(musics, request),
                 Length = musics.Length,
                 UserMusicList = musics
-            };
+            });
         }
 
         [HttpPost("GetUserOptionApi")]
-        public GetUserOptionResponse GetUserOption(GetUserOptionRequest request)
+        public ActionResult<GetUserOptionResponse> GetUserOption(GetUserOptionRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
             var profile = _context.FindProfileWithData(aimeId, p => p.GameOption);
 
-            return new GetUserOptionResponse
+            return Ok(new GetUserOptionResponse
             {
                 UserId = request.UserId,
                 UserGameOption = ObjectMapper.Map<UserGameOption>(profile?.GameOption)
-            };
+            });
         }
 
         [HttpPost("GetUserOptionExApi")]
-        public GetUserOptionExResponse GetUserOptionEx(GetUserOptionExRequest request)
+        public ActionResult<GetUserOptionExResponse> GetUserOptionEx(GetUserOptionExRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
             var profile = _context.FindProfileWithData(aimeId, p => p.GameOptionEx);
 
-            return new GetUserOptionExResponse
+            return Ok(new GetUserOptionExResponse
             {
                 UserId = request.UserId,
                 UserGameOptionEx = ObjectMapper.Map<UserGameOptionEx>(profile?.GameOptionEx)
-            };
+            });
         }
 
         [HttpPost("GetUserPreviewApi")]
-        public GetUserPreviewResponse GetUserPreview(GetUserPreviewRequest request)
+        public ActionResult<GetUserPreviewResponse> GetUserPreview(GetUserPreviewRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
 
@@ -436,13 +442,13 @@ namespace MiniMe.Chunithm.Controllers
 
             if (profile == null)
             {
-                return null;
+                return Ok();
             }
 
             var character = profile.Characters.First();
             var gameOption = profile.GameOption;
 
-            return new GetUserPreviewResponse
+            return Ok(new GetUserPreviewResponse
             {
                 UserId = 1,
 
@@ -473,17 +479,17 @@ namespace MiniMe.Chunithm.Controllers
                 PlayerLevel = gameOption.PlayerLevel,
                 Rating = gameOption.Rating,
                 Headphone = gameOption.Headphone
-            };
+            });
         }
 
         [HttpPost("GetUserRecentPlayerApi")]
-        public GetUserRecentRatingResponse GetUserRecentPlayer(GetUserRecentRatingRequest request)
+        public ActionResult<GetUserRecentRatingResponse> GetUserRecentPlayer(GetUserRecentRatingRequest request)
         {
             return GetUserRecentRating(request);
         }
 
         [HttpPost("GetUserRecentRatingApi")]
-        public GetUserRecentRatingResponse GetUserRecentRating(GetUserRecentRatingRequest request)
+        public ActionResult<GetUserRecentRatingResponse> GetUserRecentRating(GetUserRecentRatingRequest request)
         {
             Guid? aimeId = _aimeService.FindIdByCardId(request.UserId);
             var profile = _context.FindProfileWithData(aimeId, p => p.PlayLogs);
@@ -509,77 +515,77 @@ namespace MiniMe.Chunithm.Controllers
                     .ToArray();
             }
 
-            return new GetUserRecentRatingResponse
+            return Ok(new GetUserRecentRatingResponse
             {
                 UserId = request.UserId,
                 Length = logs.Length,
                 UserRecentRatingList = logs
-            };
+            });
         }
 
         [HttpPost("GetUserRegionApi")]
-        public GetUserRegionResponse GetUserRegion(GetUserRegionRequest request)
+        public ActionResult<GetUserRegionResponse> GetUserRegion(GetUserRegionRequest request)
         {
-            return new GetUserRegionResponse
+            return Ok(new GetUserRegionResponse
             {
                 UserId = request.UserId,
                 Length = 0,
                 UserRegionList = Array.Empty<UserRegion>()
-            };
+            });
         }
 
         [HttpPost("UpsertClientBookkeepingApi")]
-        public UpsertClientBookkeepingResponse UpsertClientBookkeeping( /* UpsertClientBookkeepingRequest request */)
+        public ActionResult<UpsertClientBookkeepingResponse> UpsertClientBookkeeping( /* UpsertClientBookkeepingRequest request */)
         {
-            return new UpsertClientBookkeepingResponse
+            return Ok(new UpsertClientBookkeepingResponse
             {
                 ReturnCode = 1
-            };
+            });
         }
 
         [HttpPost("UpsertClientDevelopApi")]
-        public UpsertClientDevelopResponse UpsertClientDevelop( /* UpsertClientDevelopRequest request */)
+        public ActionResult<UpsertClientDevelopResponse> UpsertClientDevelop( /* UpsertClientDevelopRequest request */)
         {
-            return new UpsertClientDevelopResponse
+            return Ok(new UpsertClientDevelopResponse
             {
                 ReturnCode = 1
-            };
+            });
         }
 
         [HttpPost("UpsertClientErrorApi")]
-        public UpsertClientErrorResponse UpsertClientError( /* UpsertClientErrorRequest request */)
+        public ActionResult<UpsertClientErrorResponse> UpsertClientError( /* UpsertClientErrorRequest request */)
         {
-            return new UpsertClientErrorResponse
+            return Ok(new UpsertClientErrorResponse
             {
                 ReturnCode = 1
-            };
+            });
         }
 
         [HttpPost("UpsertClientSettingApi")]
-        public UpsertClientSettingResponse UpsertClientSetting( /* UpsertClientSettingRequest request */)
+        public ActionResult<UpsertClientSettingResponse> UpsertClientSetting( /* UpsertClientSettingRequest request */)
         {
-            return new UpsertClientSettingResponse
+            return Ok(new UpsertClientSettingResponse
             {
                 ReturnCode = 1
-            };
+            });
         }
 
         [HttpPost("UpsertClientTestmodeApi")]
-        public UpsertClientTestmodeResponse UpsertClientTestmode( /* UpsertClientTestModeRequest request */)
+        public ActionResult<UpsertClientTestmodeResponse> UpsertClientTestmode( /* UpsertClientTestModeRequest request */)
         {
-            return new UpsertClientTestmodeResponse
+            return Ok(new UpsertClientTestmodeResponse
             {
                 ReturnCode = 1
-            };
+            });
         }
 
         [HttpPost("UpsertUserAllApi")]
-        public UpsertUserAllResponse UpsertUserAll(UpsertUserAllRequest request)
+        public ActionResult<UpsertUserAllResponse> UpsertUserAll(UpsertUserAllRequest request)
         {
             if (request.UpsertUserAll == null)
             {
                 // Invalid payload
-                return new UpsertUserAllResponse();
+                return Ok();
             }
 
             var payload = request.UpsertUserAll;
@@ -588,7 +594,7 @@ namespace MiniMe.Chunithm.Controllers
             if (!aimeId.HasValue)
             {
                 // AimeID not found
-                return new UpsertUserAllResponse();
+                return Ok();
             }
 
             // Patch UserData.UserName (Double encoded UTF-8)
@@ -695,10 +701,10 @@ namespace MiniMe.Chunithm.Controllers
 
                 transaction.Commit();
 
-                return new UpsertUserAllResponse
+                return Ok(new UpsertUserAllResponse
                 {
                     ReturnCode = 1
-                };
+                });
             }
             catch (Exception e)
             {
@@ -708,6 +714,14 @@ namespace MiniMe.Chunithm.Controllers
                 return new UpsertUserAllResponse();
             }
         }
+
+#if DEBUG
+        public override OkObjectResult Ok(object value)
+        {
+            Log.Information(_jsonHelper.Serialize(value).ToString());
+            return base.Ok(value);
+        }
+#endif
 
         private IEnumerable<T> PrepareProfileObjects<T>(IEnumerable<T> objects, Data.Models.UserProfile profile) where T : IDbProfileObject
         {
