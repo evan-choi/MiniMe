@@ -5,8 +5,8 @@ using MiniMe.Chunithm.Data;
 using MiniMe.Chunithm.Middlewares;
 using MiniMe.Core;
 using MiniMe.Core.AspNetCore.ResponseCompression;
-using MiniMe.Core.AspNetCore.RequestDecompression;
 using MiniMe.Core.AspNetCore.Hosting;
+using MiniMe.Core.AspNetCore.RequestDecompression;
 using MiniMe.Core.Repositories;
 
 namespace MiniMe.Chunithm

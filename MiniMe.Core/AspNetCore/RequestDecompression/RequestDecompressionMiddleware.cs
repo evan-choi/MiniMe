@@ -46,7 +46,7 @@ namespace MiniMe.Core.AspNetCore.RequestDecompression
 
             try
             {
-                next?.Invoke(context);
+                await next(context);
             }
             finally
             {
