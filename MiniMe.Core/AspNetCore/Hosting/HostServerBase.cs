@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -21,12 +22,16 @@ namespace MiniMe.Core.AspNetCore.Hosting
 
             _cancellationTokenSource = new CancellationTokenSource();
 
-            Host.CreateDefaultBuilder()
+            var host = Host.CreateDefaultBuilder()
                 .ConfigureWebHostDefaults(ConfigureWebHostDefaults)
                 .UseSerilog(Logger)
-                .Build()
-                .RunAsync(_cancellationTokenSource.Token)
-                .Wait(_cancellationTokenSource.Token);
+                .Build();
+
+            host.Start();
+
+            Logger.Information("Now listening on: {endPoint}", EndPoint);
+
+            host.WaitForShutdownAsync(_cancellationTokenSource.Token);
 
             OnShutdown();
         }

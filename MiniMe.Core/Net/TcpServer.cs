@@ -35,7 +35,7 @@ namespace MiniMe.Core.Net
             _socket.Bind(EndPoint);
             _socket.Listen(1024);
 
-            Logger.Information("Now listening on: {endPoint}", $"tcp://{EndPoint}");
+            Logger.Information("Now listening on: {endPoint}", EndPoint);
             OnListen();
 
             NextAccept(_socketEventArg);

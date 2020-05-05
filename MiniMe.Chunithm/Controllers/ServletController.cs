@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using MiniMe.Chunithm.Comparers;
 using MiniMe.Chunithm.Data;
 using MiniMe.Chunithm.Data.Models;
 using MiniMe.Chunithm.Protocols;
 using MiniMe.Core.Mapper;
 using MiniMe.Core.Repositories;
-using Newtonsoft.Json;
 using Serilog;
 using DbUserGameOption = MiniMe.Chunithm.Data.Models.UserGameOption;
 using DbUserGameOptionEx = MiniMe.Chunithm.Data.Models.UserGameOptionEx;
@@ -26,6 +22,7 @@ using DbUserPlayLog = MiniMe.Chunithm.Data.Models.UserPlayLog;
 using DbUserCourse = MiniMe.Chunithm.Data.Models.UserCourse;
 using DbUserDataEx = MiniMe.Chunithm.Data.Models.UserDataEx;
 using DbUserDuelList = MiniMe.Chunithm.Data.Models.UserDuelList;
+using DbUserProfile = MiniMe.Chunithm.Data.Models.UserProfile;
 using UserActivity = MiniMe.Chunithm.Protocols.UserActivity;
 using UserCharacter = MiniMe.Chunithm.Protocols.UserCharacter;
 using UserCourse = MiniMe.Chunithm.Protocols.UserCourse;
@@ -46,11 +43,11 @@ namespace MiniMe.Chunithm.Controllers
     {
         private readonly ChunithmContext _context;
         private readonly IAimeService _aimeService;
-        private readonly IJsonHelper _jsonHelper;
+        private readonly ILogger _logger;
 
-        public ServletController(ChunithmContext context, IAimeService aimeService, IJsonHelper jsonHelper)
+        public ServletController(ChunithmContext context, IAimeService aimeService, ILogger logger)
         {
-            _jsonHelper = jsonHelper;
+            _logger = logger;
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _aimeService = aimeService ?? throw new ArgumentNullException(nameof(aimeService));
         }
@@ -615,7 +612,7 @@ namespace MiniMe.Chunithm.Controllers
                 {
                     // New user
                     isNew = true;
-                    profile = ObjectMapper.Map<Data.Models.UserProfile>(payload.UserData[0]);
+                    profile = ObjectMapper.Map<DbUserProfile>(payload.UserData[0]);
                     profile.Id = Guid.NewGuid();
                     profile.AimeId = aimeId!.Value;
                 }
@@ -718,12 +715,12 @@ namespace MiniMe.Chunithm.Controllers
 #if DEBUG
         public override OkObjectResult Ok(object value)
         {
-            Log.Information(_jsonHelper.Serialize(value).ToString());
+            _logger.Information("Response: {@response}", value);
             return base.Ok(value);
         }
 #endif
 
-        private IEnumerable<T> PrepareProfileObjects<T>(IEnumerable<T> objects, Data.Models.UserProfile profile) where T : IDbProfileObject
+        private IEnumerable<T> PrepareProfileObjects<T>(IEnumerable<T> objects, DbUserProfile profile) where T : IDbProfileObject
         {
             return objects.Select(obj =>
             {
