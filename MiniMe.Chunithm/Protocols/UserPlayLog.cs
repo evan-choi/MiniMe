@@ -6,7 +6,7 @@ namespace MiniMe.Chunithm.Protocols
     {
         public virtual int OrderId { get; set; }
 
-        public virtual int Sortint { get; set; }
+        public virtual int SortNumber { get; set; }
 
         public virtual int PlaceId { get; set; }
 

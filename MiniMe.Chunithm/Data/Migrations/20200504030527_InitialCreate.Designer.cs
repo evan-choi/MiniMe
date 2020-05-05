@@ -754,7 +754,7 @@ namespace MiniMe.Chunithm.Data.Migrations
                     b.Property<int>("SkillLevel")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Sortint")
+                    b.Property<int>("SortNumber")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Track")

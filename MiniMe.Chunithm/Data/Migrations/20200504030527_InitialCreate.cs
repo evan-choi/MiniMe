@@ -395,7 +395,7 @@ namespace MiniMe.Chunithm.Data.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     OrderId = table.Column<int>(nullable: false),
-                    Sortint = table.Column<int>(nullable: false),
+                    SortNumber = table.Column<int>(nullable: false),
                     PlaceId = table.Column<int>(nullable: false),
                     PlayDate = table.Column<DateTimeOffset>(nullable: false),
                     UserPlayDate = table.Column<DateTimeOffset>(nullable: false),
