@@ -6,10 +6,15 @@
 
     <ItemGroup>
         <EmbeddedResource Include="../PubKeyInfra/server.pfx" Link="Resources/server.pfx" />
+        <EmbeddedResource Include="../PubKeyInfra/billing.key" Link="Resources/billing.key" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\MiniMe.Core\MiniMe.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="OpenSSL.X509Certificate2.Provider" Version="1.3.0" />
     </ItemGroup>
 
 </Project>

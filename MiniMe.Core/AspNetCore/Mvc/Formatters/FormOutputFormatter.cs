@@ -1,25 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json.Linq;
 
 namespace MiniMe.Core.AspNetCore.Mvc.Formatters
 {
     public class FormOutputFormatter : TextOutputFormatter
     {
-        public FormOutputFormatter()
+        private readonly bool _ignoreContentType;
+
+        public FormOutputFormatter(bool ignoreContentType = false)
         {
-            SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/plain"));
+            _ignoreContentType = ignoreContentType;
+            
+            SupportedMediaTypes.Add(MediaTypeNames.Text.Plain);
+            SupportedMediaTypes.Add("application/x-www-form-urlencoded");
+            SupportedEncodings.Add(Encoding.UTF8);
+        }
+
+        protected override bool CanWriteType(Type type)
+        {
+            return !type.IsValueType;
         }
 
         public override bool CanWriteResult(OutputFormatterCanWriteContext context)
         {
-            return context.HttpContext.Request.ContentType == "application/x-www-form-urlencoded";
+            return _ignoreContentType || context.HttpContext.Request.ContentType == "application/x-www-form-urlencoded";
         }
 
         public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)

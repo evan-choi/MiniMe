@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,11 +14,21 @@ namespace MiniMe.Core.AspNetCore.Mvc.Formatters
 {
     public class FormInputFormatter : TextInputFormatter
     {
-        public FormInputFormatter()
+        private readonly bool _ignoreContentType;
+
+        public FormInputFormatter(bool ignoreContentType = false)
         {
+            _ignoreContentType = ignoreContentType;
+
+            SupportedMediaTypes.Add(MediaTypeNames.Text.Plain);
             SupportedMediaTypes.Add("application/x-www-form-urlencoded");
             SupportedEncodings.Add(UTF8EncodingWithoutBOM);
             SupportedEncodings.Add(UTF16EncodingLittleEndian);
+        }
+
+        public override bool CanRead(InputFormatterContext context)
+        {
+            return _ignoreContentType || base.CanRead(context);
         }
 
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
@@ -43,7 +54,7 @@ namespace MiniMe.Core.AspNetCore.Mvc.Formatters
 
                 JToken result;
 
-                if (context.ModelType.IsArray || typeof(IEnumerable<>).IsAssignableFrom(context.ModelType))
+                if (context.ModelType.IsArray || typeof(IEnumerable<object>).IsAssignableFrom(context.ModelType))
                 {
                     var array = new JArray();
 

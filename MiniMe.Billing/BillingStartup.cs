@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MiniMe.Core.AspNetCore.RequestDecompression;
 using MiniMe.Core.AspNetCore.Hosting;
 using MiniMe.Core.AspNetCore.Mvc.Formatters;
+using MiniMe.Core.Utilities;
 
 namespace MiniMe.Billing
 {
@@ -18,6 +19,10 @@ namespace MiniMe.Billing
 
         public override void ConfigureServices(IServiceCollection services)
         {
+            byte[] billingKey = ResourceManager.GetResourceBytes("billing.key");
+
+            services.AddSingleton(new BillingCryptoService(billingKey));
+
             services.AddRequestDecompression(o =>
             {
                 o.Providers.Add<DeflateDecompressionProvider>();
@@ -28,12 +33,8 @@ namespace MiniMe.Billing
 
         protected override void ConfigureControllers(MvcOptions options)
         {
-            options.InputFormatters.Insert(0, new FormInputFormatter
-            {
-                SupportedMediaTypes = { "application/octet-stream" }
-            });
-
-            options.OutputFormatters.Insert(0, new FormOutputFormatter());
+            options.InputFormatters.Insert(0, new FormInputFormatter(true));
+            options.OutputFormatters.Insert(0, new FormOutputFormatter(true));
         }
     }
 }
