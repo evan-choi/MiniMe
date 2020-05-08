@@ -26,9 +26,9 @@ dotnet run
 ```
 
 ## How to change DB provider
-1. Setup [AimeContext](https://github.com/evan-choi/MiniMe/blob/642bbbe322d107221cd4ff0bc9383de023eeb125/MiniMe.Aime/Data/AimeContext.cs#L18) Configuring
+1. Setup [AimeContext](https://github.com/evan-choi/MiniMe/blob/master/MiniMe.Aime/Data/AimeContext.cs#L18) Configuring
 
-2. Setup [ChunithmContext](https://github.com/evan-choi/MiniMe/blob/642bbbe322d107221cd4ff0bc9383de023eeb125/MiniMe.Chunithm/Data/ChunithmContext.cs#L18) Configuring 
+2. Setup [ChunithmContext](https://github.com/evan-choi/MiniMe/blob/master/MiniMe.Chunithm/Data/ChunithmContext.cs#L18) Configuring 
 
 ```cs
 protected override void OnConfiguring(DbContextOptionsBuilder options)
