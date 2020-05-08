@@ -52,7 +52,7 @@ namespace MiniMe
                     config.GetValue<string>("Host"),
                     config.GetOptions<MiniMePorts>("Port")));
 
-            // Console Patch
+            // Hook console terminate request for windows
             ConsoleUtility.HookExit(Terminate);
         }
 
