@@ -12,7 +12,7 @@ A simple self-hosted AllNet/Aime server, written in .NET Core 3.1
 ## How to run
 
 ### Requirements
-- .NET Core SDK
+- [.NET Core SDK](https://dotnet.microsoft.com/download)
 
 ### Setup repository
 ```sh
