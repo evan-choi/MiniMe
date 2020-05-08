@@ -58,7 +58,8 @@ namespace MiniMe.Chunithm.Data
 
             modelBuilder.Entity<UserActivity>(builder =>
             {
-                builder.HasOne(activity => activity.Profile)
+                builder
+                    .HasOne(activity => activity.Profile)
                     .WithMany(profile => profile.Activities)
                     .HasForeignKey(activity => activity.ProfileId);
 
@@ -69,7 +70,8 @@ namespace MiniMe.Chunithm.Data
 
             modelBuilder.Entity<UserCharacter>(builder =>
             {
-                builder.HasOne(character => character.Profile)
+                builder
+                    .HasOne(character => character.Profile)
                     .WithMany(profile => profile.Characters)
                     .HasForeignKey(character => character.ProfileId);
 
@@ -80,7 +82,8 @@ namespace MiniMe.Chunithm.Data
 
             modelBuilder.Entity<UserCourse>(builder =>
             {
-                builder.HasOne(course => course.Profile)
+                builder
+                    .HasOne(course => course.Profile)
                     .WithMany(profile => profile.Courses)
                     .HasForeignKey(course => course.ProfileId);
 
@@ -91,7 +94,8 @@ namespace MiniMe.Chunithm.Data
 
             modelBuilder.Entity<UserDuelList>(builder =>
             {
-                builder.HasOne(duelList => duelList.Profile)
+                builder
+                    .HasOne(duelList => duelList.Profile)
                     .WithMany(userProfile => userProfile.DuelLists)
                     .HasForeignKey(duelList => duelList.ProfileId);
 
@@ -102,7 +106,8 @@ namespace MiniMe.Chunithm.Data
 
             modelBuilder.Entity<UserItem>(builder =>
             {
-                builder.HasOne(item => item.Profile)
+                builder
+                    .HasOne(item => item.Profile)
                     .WithMany(profile => profile.Items)
                     .HasForeignKey(item => item.ProfileId);
 
@@ -113,7 +118,8 @@ namespace MiniMe.Chunithm.Data
 
             modelBuilder.Entity<UserMap>(builder =>
             {
-                builder.HasOne(map => map.Profile)
+                builder
+                    .HasOne(map => map.Profile)
                     .WithMany(profile => profile.Maps)
                     .HasForeignKey(map => map.ProfileId);
 
@@ -124,7 +130,8 @@ namespace MiniMe.Chunithm.Data
 
             modelBuilder.Entity<UserMusic>(builder =>
             {
-                builder.HasOne(music => music.Profile)
+                builder
+                    .HasOne(music => music.Profile)
                     .WithMany(profile => profile.Musics)
                     .HasForeignKey(music => music.ProfileId);
 
