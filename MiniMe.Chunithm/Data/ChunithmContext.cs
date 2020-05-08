@@ -16,7 +16,6 @@ namespace MiniMe.Chunithm.Data
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseSqlite($"Data Source={MiniMeEnvironment.GetDataFile("chunithm.db")}");
-            //options.UseLoggerFactory(new SerilogLoggerFactory());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
