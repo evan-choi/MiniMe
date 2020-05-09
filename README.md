@@ -5,9 +5,9 @@ A simple self-hosted AllNet/Aime server, written in .NET Core 3.1
 | Name | Server | Protocol | Database |
 | --- | --- | --- | -- |
 | ALLNet | ASP.NET Core, Kestrel | Http | |
-| Aime | ASP.NET Core, Kestrel | Http | [EF Core](https://github.com/dotnet/efcore) (SQLite) |
+| Aime | System.Net.Socket | TCP | [EF Core](https://github.com/dotnet/efcore) (SQLite) |
 | Billing | ASP.NET Core, Kestrel | Https | |
-| Chunithm | System.Net.Socket | TCP | [EF Core](https://github.com/dotnet/efcore) (SQLite) |
+| Chunithm | ASP.NET Core, Kestrel | Http | [EF Core](https://github.com/dotnet/efcore) (SQLite) |
 
 ## How to run
 
